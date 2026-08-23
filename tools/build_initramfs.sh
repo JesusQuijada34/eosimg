@@ -58,7 +58,7 @@ mount -t devtmpfs devtmpfs /dev 2>/dev/null || true
 mkdir -p /eos-data /var/lib/eos
 # If a persistent EOS-DATA partition is attached in QEMU, use it for the
 # first-boot marker. Otherwise remain in safe volatile development mode.
-mount -t ext4 /dev/vda4 /eos-data 2>/dev/null || mount -t ext4 /dev/sda4 /eos-data 2>/dev/null || true
+mount -t ext4 /dev/vda4 /eos-data 2>/dev/null || mount -t ext4 /dev/sda4 /eos-data 2>/dev/null || mount -t ext4 /dev/vda /eos-data 2>/dev/null || mount -t ext4 /dev/sda /eos-data 2>/dev/null || true
 DATA_ROOT=/var/lib/eos
 if [ -f /eos-data/.eos-data ]; then DATA_ROOT=/eos-data/var/lib/eos; fi
 

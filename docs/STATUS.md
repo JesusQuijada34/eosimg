@@ -27,7 +27,7 @@ El shell Qt 6 incorpora un teclado virtual táctil de demostración con entrada 
 
 Se añadió `build_bootable_iso.sh`, que construye localmente una ISO El Torito/GRUB con el kernel Linux real de desarrollo, initramfs EOS y entradas normal/recovery. La ISO arranca como artefacto de desarrollo y no se publica como release.
 
-Se añadió `populate_gpt_image.sh`, que crea una ESP FAT32 dentro de la imagen GPT y copia un GRUB UEFI standalone, el kernel y el initramfs EOS. `sgdisk --verify` confirma el layout después de poblarla. La imagen GPT ya arranca por UEFI en OVMF y llega al initramfs de EOS. El poblador ahora crea una partición `EOS-SYSTEM` ext4 con `eos-release` y metadatos mínimos del userland; la prueba UEFI sigue pasando. Sigue siendo una imagen de desarrollo: todavía faltan el userland persistente completo, un bootloader EOS propio y pruebas sobre hardware físico.
+Se añadió `populate_gpt_image.sh`, que crea una ESP FAT32 dentro de la imagen GPT y copia un GRUB UEFI standalone, el kernel y el initramfs EOS. `sgdisk --verify` confirma el layout después de poblarla. La imagen GPT ya arranca por UEFI en OVMF y llega al initramfs de EOS. El poblador ahora crea una partición `EOS-SYSTEM` ext4 con `eos-release`, metadatos del userland y el manifiesto SHA-256 de los targets compilados. La initramfs incorpora el payload de desarrollo y reconoce `EOS-DATA` persistente para el marcador de primer arranque. Sigue siendo una imagen de desarrollo: todavía faltan un root runtime completo con todas las bibliotecas dinámicas integradas, un bootloader EOS propio y pruebas sobre hardware físico.
 
 Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clasifica taps y deslizamientos básicos. La autoprueba pasa sin hardware físico; la integración posterior utilizará dispositivos de entrada del kernel mediante EDAL, sin exponer directamente sus eventos a las aplicaciones.
 
@@ -56,6 +56,8 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Teclado virtual Qt 6 | PASS en shell offscreen |
 | Imagen raw GPT `.img` de desarrollo | PASS |
 | ISO GRUB/El Torito de desarrollo | PASS |
+| Initramfs con manifiesto SHA-256 del userland compilado | PASS; payload de desarrollo, no root runtime Qt completo |
+| Provisión first-boot idempotente en disco EOS-DATA persistente | PASS en QEMU: una provisión, un reinicio solicitado y detección posterior del marcador |
 | ESP FAT32 + GRUB UEFI en `.img` GPT | PASS |
 | Arranque UEFI de `.img` GPT en OVMF | PASS |
 | Población de `EOS-SYSTEM` ext4 | PASS |
@@ -138,10 +140,12 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Ejecución de un `.eapp` EOSBC propio | PASS |
 | `.eapp` v3 con manifest JSON, YAML, UI y MF | PASS temporal; artefacto fuera de Git |
 | Notes EosLang 0.2 → EOSBC 2 → runtime oficial | PASS temporal |
-| ISO arrancable completa | No implementada |
+| ISO arrancable completa | No implementada; ISO de desarrollo arranca initramfs/`eos-init`, no el escritorio Qt completo |
 | Soporte universal de Swift/UIKit/SwiftUI | No implementado |
 
 ## Próximo hito
+
+El incremento de imágenes de desarrollo deja reproducible el flujo `build → initramfs → QEMU → first-boot → reboot`: la compilación ocurre en tiempo de build, el estado de provisión se guarda atómicamente en `EOS-DATA` y un segundo arranque no vuelve a instalar el payload. Las pruebas se ejecutaron con archivos locales bajo `build/`; no se tocaron discos del anfitrión y los artefactos siguen ignorados/no publicados.
 
 La integración de `llama.cpp` ya tiene una inferencia real offline con Qwen2.5-0.5B Q4_K_M; el GGUF permanece fuera de Git en `build/models`. El contrato inicial de navegador ya existe, pero todavía no es un navegador web: falta seleccionar y compilar un backend Gecko permitido, integrar perfiles/procesos y añadir una UI Qt 6. La red y las descargas permanecen desactivadas en el prototipo.
 

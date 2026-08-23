@@ -55,6 +55,36 @@ El modelo se descargó con autorización explícita y quedó fuera del repositor
 
 EOS Browser se construye como app fuente EosLang/EOSBC y solicita una sesión a `eos-browserd`. El bridge Gecko se ejecuta en modo plan-only por defecto. El motor Gecko real necesita un checkout Mozilla interno, revisión fija, toolchain y almacenamiento suficiente; no se debe copiar un Firefox Linux arbitrario dentro de una app `.eapp`.
 
+## Imagen de desarrollo y primer arranque
+
+La compilación se realiza en tiempo de build; el arranque no recompila C++ ni Qt. `tools/build_initramfs.sh` genera una initramfs autónoma con BusyBox, `eos-init`, contratos de servicios, SDK, documentación y `eos-userland-manifest.json`, cuyos hashes describen los targets compilados del build local. El poblador de imagen mantiene el sistema EOS separado del ABI de aplicaciones: los ejecutables C++ copiados son componentes internos de plataforma y las aplicaciones de usuario siguen siendo paquetes firmados `.eapp` ejecutados mediante EOSBC.
+
+```bash
+# Compilar y generar el payload local
+python3 tools/eos_build.py --configuration Debug --jobs 2 --skip-initramfs
+tools/build_initramfs.sh
+tools/build_bootable_iso.sh
+
+# Probar el arranque normal de la ISO sin tocar el disco del anfitrión
+qemu-system-x86_64 -m 512 \\
+  -kernel build/vmlinuz-eos-dev -initrd build/eos-initramfs.img \\
+  -append 'console=ttyS0 rdinit=/init' -nographic
+```
+
+Para probar persistencia en QEMU se usa un archivo ext4 local como disco de datos, nunca `/dev/*` del anfitrión. La initramfs reconoce las particiones EOS-DATA esperadas (`/dev/vda4` o `/dev/sda4`) y, para la prueba directa, un volumen virtio completo (`/dev/vda`) marcado con `.eos-data`.
+
+```bash
+truncate -s 64M build/eos-data-test.img
+mkfs.ext4 -F build/eos-data-test.img
+# Crear .eos-data y /var/lib/eos montando únicamente este archivo local.
+qemu-system-x86_64 -m 512 -kernel build/vmlinuz-eos-dev \\
+  -initrd build/eos-initramfs.img \\
+  -append 'console=ttyS0 rdinit=/init eos.firstboot=1 eos.reboot=1' \\
+  -drive file=build/eos-data-test.img,format=raw,if=virtio -nographic
+```
+
+El resultado esperado del ciclo es **una** línea de marcador comprometido, **una** solicitud de reinicio y, tras el reinicio real de QEMU con el mismo disco, una o más detecciones de `marker found`; esto demuestra que la provisión es idempotente y que el estado sobrevive al reinicio. El `reboot` se limita al invitado QEMU y no reinicia ni modifica el sandbox anfitrión. Esta evidencia sigue siendo de desarrollo: el arranque confirmado llega a la initramfs y al contrato de `eos-init`; no implica todavía que el escritorio Qt, Gecko, Studio o todos los demonios dinámicos arranquen desde la ISO.
+
 ## Publicación
 
 No usar `gh release create`. No subir `.img`, `.edisk`, `.eapp` generado, `.gguf`, claves privadas ni builds. Antes de cada commit:
