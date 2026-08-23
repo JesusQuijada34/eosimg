@@ -25,6 +25,8 @@ Se añadió `eos_gpt_image.py`, que genera una imagen raw local de 256 MiB con t
 
 El shell Qt 6 incorpora un teclado virtual táctil de demostración con entrada de texto, filas QWERTY y tecla de espacio. El componente compila y arranca en modo offscreen; la internacionalización, predicción, layouts y motor IME quedan pendientes.
 
+Se añadió `build_bootable_iso.sh`, que construye localmente una ISO El Torito/GRUB con el kernel Linux real de desarrollo, initramfs EOS y entradas normal/recovery. La ISO arranca como artefacto de desarrollo y no se publica como release.
+
 Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clasifica taps y deslizamientos básicos. La autoprueba pasa sin hardware físico; la integración posterior utilizará dispositivos de entrada del kernel mediante EDAL, sin exponer directamente sus eventos a las aplicaciones.
 
 ## Resultados de pruebas
@@ -50,6 +52,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Generador de política de sandbox | PASS |
 | Teclado virtual Qt 6 | PASS en shell offscreen |
 | Imagen raw GPT `.img` de desarrollo | PASS |
+| ISO GRUB/El Torito de desarrollo | PASS |
 | Servicio de entrada táctil | PASS en autoprueba |
 | Registro de APIs EOS | PASS |
 | Stub local de IA/asistente | PASS |
