@@ -74,6 +74,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Cola de descargas y verificación SHA-256 | PASS sin red |
 | EOS Notes: EosLang → EOSBC → `.eapp` firmado | PASS temporal |
 | Catálogo de apps fuente y validación de manifiestos | PASS |
+| Servicio `eos-mediad` de foto/audio/vídeo | PASS en autoprueba |
 | Validación integral de build y pruebas | PASS |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
