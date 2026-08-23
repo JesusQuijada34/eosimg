@@ -52,8 +52,12 @@ add_executable(eos-mediad
     src/eos-media/eos-mediad.cpp
 )
 
+add_executable(eos-launcherd
+    src/eos-launcher/eos-launcherd.cpp
+)
+
 target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd RUNTIME DESTINATION bin)
