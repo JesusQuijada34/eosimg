@@ -4,7 +4,7 @@
 
 EOS no instalará Firefox Linux ni Safari como aplicaciones de usuario. El navegador será `EOS Browser`, una aplicación `.eapp`/servicio EOS con un backend Gecko interno. El límite es importante: un ELF Linux genérico no se convierte en una aplicación EOS solo por copiarlo dentro de una imagen.
 
-La documentación oficial de Mozilla describe Gecko como el motor que reúne parsing HTML, networking, JavaScript, IPC, DOM, widgets y gráficos.[^1] También describe `docshell` como la capa que gestiona documentos y carga de URI, y señala que `mobile/android` contiene Firefox para Android y GeckoView.[^2] GeckoView tiene una ruta pública de embedding orientada a Android, mientras que una build completa de Firefox para Linux requiere como mínimo 4 GB de RAM, recomienda 8 GB y necesita al menos 30 GB libres.[^3]
+La documentación oficial de Mozilla describe Gecko como el motor que reúne parsing HTML, networking, JavaScript, IPC, DOM, widgets y gráficos.[^1] También describe `docshell` como la capa que gestiona documentos y carga de URI, y señala que `mobile/android` contiene Firefox para Android y GeckoView.[^2] GeckoView es explícitamente una biblioteca Android: expone `GeckoRuntime`, `GeckoSession` y `GeckoView`, y delega navegación, historial, permisos, prompts y medios al embedder.[^4] Su modelo interno es multiproceso, pero Mozilla indica que ese detalle no se expone normalmente a los embedders.[^4] GeckoView tiene una ruta pública de embedding orientada a Android, mientras que una build completa de Firefox para Linux requiere como mínimo 4 GB de RAM, recomienda 8 GB y necesita al menos 30 GB libres.[^3]
 
 Por eso el sandbox actual sirve para diseñar y probar el contrato, pero no es el lugar adecuado para compilar una build completa de Firefox: tiene 3.8 GiB de RAM y no se ha reservado un volumen persistente de decenas de GB.
 
@@ -16,7 +16,7 @@ Por eso el sandbox actual sirve para diseñar y probar el contrato, pero no es e
 <gecko-internal> --no-remote --profile <eos-profile> <uri>
 ```
 
-El bridge no ejecuta Firefox instalado en el host automáticamente, no acepta `file://`, no mezcla perfiles y no pretende que un ejecutable temporal sea Gecko real. La autoprueba usa un runner sintético únicamente para verificar la frontera de permisos y argumentos.
+El bridge no ejecuta Firefox instalado en el host automáticamente, no acepta `file://`, no mezcla perfiles y no pretende que un ejecutable temporal sea Gecko real. La autoprueba usa un runner sintético únicamente para verificar la frontera de permisos y argumentos. La API EOS se inspira en la separación runtime/session/delegates de GeckoView, pero su implementación final deberá ser C++/Qt 6 y no copiar la API Java de Android.
 
 ## Ruta para una integración real
 
@@ -44,3 +44,4 @@ La build real de `llama.cpp` y una inferencia local ya funcionan. Para Gecko, el
 [^1]: [Mozilla Firefox Source Docs — Gecko](https://firefox-source-docs.mozilla.org/overview/gecko.html).
 [^2]: [Mozilla Firefox Source Docs — Firefox Source Code Directory Structure](https://firefox-source-docs.mozilla.org/contributing/directory_structure.html).
 [^3]: [Mozilla Firefox Source Docs — Building Firefox on Linux](https://firefox-source-docs.mozilla.org/setup/linux_build.html).
+[^4]: [Mozilla Firefox Source Docs — GeckoView Architecture](https://firefox-source-docs.mozilla.org/mobile/android/geckoview/contributor/geckoview-architecture.html) y [GeckoView](https://mozilla.github.io/geckoview/).
