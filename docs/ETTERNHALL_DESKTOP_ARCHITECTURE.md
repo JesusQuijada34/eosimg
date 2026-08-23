@@ -34,3 +34,14 @@ El escritorio soporta pointer, teclado, touch y swipe. Un swipe horizontal dentr
 ## Alcance actual
 
 Los contratos de display, window, input, actividades y UI ya existen y tienen autopruebas. La siguiente implementación convierte el shell de teléfono actual en una ventana de escritorio de desarrollo con panel, launcher, tareas y escritorios virtuales. Esto no implica todavía un compositor Wayland/Qt de producción ni compatibilidad con aplicaciones Linux genéricas.
+
+## Base de referencia temporal
+
+Para estudiar un escritorio completo se selecciona **Kubuntu con KDE Plasma** como referencia de laboratorio, no como dependencia de la ABI final. La documentación oficial de KDE describe Plasma con launcher, bandeja del sistema, notificaciones, Discover, paneles, widgets, escritorios y configuración de hardware; Kubuntu combina Ubuntu con Plasma como distribución lista para usar [[1]](https://kde.org/plasma-desktop/) [[2]](https://kubuntu.org/).
+
+La instalación debe hacerse en una VM/QEMU o en una máquina/carpeta vinculada, no sobre el root del sandbox ni mezclando paquetes de Plasma con el userland EOS. Se estudiarán sus capacidades visuales y de sesión para reproducirlas mediante `eos-windowd`, `eos-displayd`, `eos-launcherd`, `eos-blinked`, `eos-activityd` y el futuro compositor EOS. No se distribuirá Kubuntu dentro de EOS como formato de aplicaciones ni se aceptarán paquetes `.deb` como aplicaciones EOS.
+
+### Referencias
+
+[1]: https://kde.org/plasma-desktop/ "KDE Plasma Desktop"
+[2]: https://kubuntu.org/ "Kubuntu"
