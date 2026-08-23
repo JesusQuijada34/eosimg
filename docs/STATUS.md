@@ -70,7 +70,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Protección de licencia/revisión/revisión fijada | Documentada |
 | Selector de modelos por RAM/arquitectura | PASS sin descarga |
 | Planificador de asistente local offline | PASS sin ejecución |
-| Build real `llama.cpp` CPU en revisión fijada | PASS sin modelo |
+| Build real `llama.cpp` CPU en revisión fijada | PASS; binario no versionado |
 | Adaptador EOS `llama.cpp` offline con hash obligatorio | PASS en plan-only |
 | Preflight GGUF: magic, versión, tamaño y SHA-256 | PASS con fixture; sin inferencia |
 | Descarga autorizada Qwen2.5 0.5B Q4_K_M | PASS; revisión/licencia/hash fijados |
@@ -104,7 +104,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 
 ## Próximo hito
 
-El contrato inicial de navegador ya existe, pero todavía no es un navegador web: falta seleccionar y compilar un backend Gecko permitido, integrar perfiles/procesos y añadir una UI Qt 6. La red y las descargas permanecen desactivadas en el prototipo.
+La integración de `llama.cpp` ya tiene una inferencia real offline con Qwen2.5-0.5B Q4_K_M; el GGUF permanece fuera de Git en `build/models`. El contrato inicial de navegador ya existe, pero todavía no es un navegador web: falta seleccionar y compilar un backend Gecko permitido, integrar perfiles/procesos y añadir una UI Qt 6. La red y las descargas permanecen desactivadas en el prototipo.
 
 La primera utilidad fuente, `apps/eos-notes`, ya valida el flujo EosLang → EOSBC → `.eapp` firmado en un directorio temporal. El paquete generado, sus claves de prueba y sus imágenes no se versionan.
 
