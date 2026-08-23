@@ -15,3 +15,6 @@ Las capturas de `eos-phone-shell`, `eos-studio` y `eos-app-preview` son salidas 
 | `build/captures/eos-oobe-welcome.png` | OOBE inicial: bienvenida, selector de idioma, progreso y acciones Atrás/Omitir/Continuar | `eos-oobe --capture` | 760×520 |
 
 La captura OOBE fue inspeccionada visualmente y corresponde al primer paso real del flujo Qt 6. El progreso, el selector de idioma y los botones pertenecen al prototipo ejecutable; la configuración persistente se guarda en un root EOS de desarrollo.
+| `build/captures/etternhall-desktop.png` | Escritorio convencional con panel superior, launcher, búsqueda, selector de workspaces, ventanas Archivos/Notas y barra de tareas | `eos-phone-shell --capture` | 1280×800 |
+
+La captura demuestra el cambio desde el shell de teléfono a un escritorio Qt 6 de desarrollo. Las ventanas son contenedores del shell; las pantallas internas de Notes siguen siendo responsabilidad de `eos-activityd`.
