@@ -54,3 +54,9 @@ python3 tools/eos_recovery.py factory-reset --root ~/.eos --confirm 'ERASE EOS D
 ## Próximos hitos
 
 El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C++ de EOS, añadir sandbox por proceso y construir un bootloader/instalador de PC que produzca una imagen GPT `.img`. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados hasta disponer de un runtime compatible verificable.
+
+## Política de publicación
+
+El repositorio público contiene exclusivamente código fuente, especificaciones y pruebas de desarrollo. **No se publicarán releases ni imágenes oficiales `.img`/`.edisk` todavía**. Las imágenes y paquetes generados localmente sirven para pruebas internas hasta que el bootloader, userland, sandbox, recovery y APIs de EOS alcancen una versión estable.
+
+El proyecto seguirá tratando `.ipa` únicamente mediante análisis pasivo y pruebas autorizadas. No se incluirán claves privadas, componentes propietarios de Apple ni mecanismos para evadir firmas, DRM o controles de acceso.
