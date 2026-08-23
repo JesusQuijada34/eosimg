@@ -15,7 +15,7 @@ import shutil
 import subprocess
 
 PARTITIONS = [
-    (1, 2048, "+32M", "EF00", "EOS-BOOT"),
+    (1, 2048, "+64M", "EF00", "EOS-BOOT"),
     (2, 0, "+64M", "8300", "EOS-SYSTEM"),
     (3, 0, "+32M", "8300", "EOS-RECOVERY"),
     (4, 0, "+64M", "8300", "EOS-DATA"),
@@ -26,7 +26,7 @@ PARTITIONS = [
 def main() -> int:
     parser = argparse.ArgumentParser(prog="eos-gpt-image", description="Create a development GPT image for EOS")
     parser.add_argument("output", type=Path)
-    parser.add_argument("--size", default="256M")
+    parser.add_argument("--size", default="320M")
     parser.add_argument("--profile", default="eos-pc-reference")
     parser.add_argument("--version", default="0.1.0")
     parser.add_argument("--architecture", default="x86_64")

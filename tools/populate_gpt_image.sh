@@ -17,8 +17,11 @@ done
 rm -rf "$WORK"
 mkdir -p "$WORK/EFI/BOOT" "$WORK/EFI/EOS" "$WORK/boot/grub"
 cat > "$CFG" <<'EOF'
-set timeout=3
+set timeout=0
 set default=0
+insmod part_gpt
+insmod fat
+set root=(hd0,gpt1)
 menuentry 'Etternhall Operating System (development)' {
     linux /EFI/EOS/eos-linux console=ttyS0 rdinit=/init eos.mode=normal
     initrd /EFI/EOS/eos-initramfs.img
@@ -29,7 +32,7 @@ menuentry 'Etternhall Operating System (recovery)' {
 }
 EOF
 grub-mkstandalone -O x86_64-efi -o "$EFI" "boot/grub/grub.cfg=$CFG" >/tmp/eos-grub-standalone.log 2>&1
-truncate -s 32M "$ESP"
+truncate -s 64M "$ESP"
 mkfs.fat -F32 -n EOSBOOT "$ESP" >/dev/null
 mmd -i "$ESP" ::/EFI ::/EFI/BOOT ::/EFI/EOS
 mcopy -i "$ESP" "$EFI" ::/EFI/BOOT/BOOTX64.EFI
