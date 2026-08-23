@@ -21,6 +21,8 @@ Se añadió `eos-serviced`, que calcula un orden de arranque determinista para l
 
 Se añadió `eos-sandbox`, que transforma los permisos de `.eapp` en una política declarativa de aislamiento con no-new-privileges, límites de memoria/CPU, montajes privados y acceso a dispositivos denegado por defecto. La aplicación real de namespaces, seccomp y cgroups queda para el supervisor de procesos C++ de EOS.
 
+Se añadió `eos_gpt_image.py`, que genera una imagen raw local de 256 MiB con tabla GPT y particiones EOS-BOOT, EOS-SYSTEM, EOS-RECOVERY, EOS-DATA y EOS-CACHE. `sgdisk --verify` confirma que el layout es válido; la imagen aún no está poblada con un bootloader/producto final y no se publica.
+
 El shell Qt 6 incorpora un teclado virtual táctil de demostración con entrada de texto, filas QWERTY y tecla de espacio. El componente compila y arranca en modo offscreen; la internacionalización, predicción, layouts y motor IME quedan pendientes.
 
 ## Resultados de pruebas
@@ -45,6 +47,7 @@ El shell Qt 6 incorpora un teclado virtual táctil de demostración con entrada 
 | Arranque initramfs + kernel Linux real en QEMU | PASS |
 | Generador de política de sandbox | PASS |
 | Teclado virtual Qt 6 | PASS en shell offscreen |
+| Imagen raw GPT `.img` de desarrollo | PASS |
 | Ejecución de una app comercial `.ipa` | No implementada |
 | ISO arrancable completa | No implementada |
 | Soporte universal de Swift/UIKit/SwiftUI | No implementado |
