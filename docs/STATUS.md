@@ -19,6 +19,8 @@ Se añadió una política de ABI que rechaza `.deb`, AppImage y ELF Linux de usu
 
 Se añadió `eos-serviced`, que calcula un orden de arranque determinista para los servicios propios de EOS. También se añadió `eos_boot_config.py`, que genera entradas normales y de recovery para UEFI/GRUB a partir de un kernel y un initramfs explícitos. La validación se hizo con un marcador de kernel porque el sandbox no contiene una imagen Linux EOS compilada.
 
+Se añadió `eos-sandbox`, que transforma los permisos de `.eapp` en una política declarativa de aislamiento con no-new-privileges, límites de memoria/CPU, montajes privados y acceso a dispositivos denegado por defecto. La aplicación real de namespaces, seccomp y cgroups queda para el supervisor de procesos C++ de EOS.
+
 ## Resultados de pruebas
 
 | Prueba | Resultado |
@@ -38,6 +40,7 @@ Se añadió `eos-serviced`, que calcula un orden de arranque determinista para l
 | Contenedores `.edisk` y `.img` de desarrollo | PASS |
 | Gestor de servicios EOS | PASS |
 | Generador de configuración de bootloader | PASS con kernel marcador |
+| Generador de política de sandbox | PASS |
 | Ejecución de una app comercial `.ipa` | No implementada |
 | ISO arrancable completa | No implementada |
 | Soporte universal de Swift/UIKit/SwiftUI | No implementado |
