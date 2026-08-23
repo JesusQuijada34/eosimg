@@ -12,8 +12,12 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 add_executable(eos-phone-shell
     src/eos-shell/main.cpp
 )
+target_link_libraries(eos-phone-shell PRIVATE Qt6::Widgets)
 
-target_link_libraries(eos-phone-shell PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
+add_executable(eos-windowd
+    src/eos-shell/eos-windowd.cpp
+)
+
 
 add_executable(eos-init
     src/eos-init/main.cpp
@@ -87,4 +91,4 @@ target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-windowd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
