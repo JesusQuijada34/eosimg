@@ -21,6 +21,7 @@ La versión 0.1 define una arquitectura por capas similar en organización a AOS
 | `tools/eos_sandbox.py` | Política de permisos y sandbox |
 | `tools/eos_build.py` | Motor de compilación coordinado |
 | `tools/eos_api.py` | Registro y comprobación de APIs EOS |
+| `tools/ipa_compat.py` | Matriz pasiva de compatibilidad IPA/Mach-O |
 | `tools/eoslangc.py` / `tools/eosrun.py` | Compilador y runtime EosLang |
 | `src/` | Servicios C++ y shell Qt 6 de EOS |
 | `tests/` | Pruebas del formato y de los servicios |
@@ -63,4 +64,4 @@ El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C
 
 El repositorio público contiene exclusivamente código fuente, especificaciones y pruebas de desarrollo. **No se publicarán releases ni imágenes oficiales `.img`/`.edisk` todavía**. Las imágenes y paquetes generados localmente sirven para pruebas internas hasta que el bootloader, userland, sandbox, recovery y APIs de EOS alcancen una versión estable.
 
-El proyecto seguirá tratando `.ipa` únicamente mediante análisis pasivo y pruebas autorizadas. No se incluirán claves privadas, componentes propietarios de Apple ni mecanismos para evadir firmas, DRM o controles de acceso.
+El proyecto seguirá tratando `.ipa` únicamente mediante análisis pasivo y pruebas autorizadas. `ipa_inspect.py` y `ipa_compat.py` leen ZIP, `Info.plist` y cabeceras/dependencias Mach-O, pero nunca ejecutan, resignan, descifran ni parchean aplicaciones. No se incluirán claves privadas, componentes propietarios de Apple ni mecanismos para evadir firmas, DRM o controles de acceso.
