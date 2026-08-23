@@ -87,6 +87,10 @@ add_executable(eos-launcherd
     src/eos-launcher/eos-launcherd.cpp
 )
 
+add_executable(eos-marketd
+    src/eos-launcher/eos-marketd.cpp
+)
+
 add_executable(eos-photod
     src/eos-photo/eos-photod.cpp
 )
@@ -103,4 +107,4 @@ target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-windowd eos-displayd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-supervise eos-assistantd eos-audiod eos-modeld eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-windowd eos-displayd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-supervise eos-assistantd eos-audiod eos-modeld eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-marketd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
