@@ -109,6 +109,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Grafo declarativo completo de servicios EOS | PASS; sin ciclos |
 | Auditoría de apps fuente integrada en `eos-build` | PASS; catálogo generado |
 | Build completo del userland con manifiesto de todos los targets | PASS |
+| Validación actual de EOS: tests, build, grafo y servicios | PASS |
 | `eos-logd` logging estructurado JSONL | PASS en root temporal |
 | `eos-storaged` roots lógicos y escritura atómica | PASS en root temporal |
 | `eos-netd` red brokered y deny-by-default | PASS en autoprueba |
