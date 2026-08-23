@@ -44,8 +44,12 @@ add_executable(eos-immersived
     src/eos-immersive/eos-immersived.cpp
 )
 
+add_executable(eos-browserd
+    src/eos-browser/eos-browserd.cpp
+)
+
 target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd RUNTIME DESTINATION bin)
