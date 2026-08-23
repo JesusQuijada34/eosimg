@@ -1,0 +1,47 @@
+{
+  "catalog_version": 1,
+  "models": [
+    {
+      "id": "eos-tiny-chat",
+      "repo_id": "ggml-org/Qwen3.5-0.8B-GGUF",
+      "format": "gguf",
+      "quantization": "Q4_K_M",
+      "estimated_ram_gib": 1.8,
+      "min_ram_gib": 3,
+      "context_tokens": 2048,
+      "tasks": ["chat", "assistant"],
+      "architectures": ["x86_64", "aarch64"],
+      "backend": "llama.cpp",
+      "license": "review-required",
+      "revision": "pin-before-download"
+    },
+    {
+      "id": "eos-small-chat",
+      "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "format": "safetensors",
+      "quantization": "fp16-or-converted-gguf",
+      "estimated_ram_gib": 4.0,
+      "min_ram_gib": 6,
+      "context_tokens": 4096,
+      "tasks": ["chat", "assistant"],
+      "architectures": ["x86_64", "aarch64"],
+      "backend": "transformers-or-llama.cpp",
+      "license": "review-required",
+      "revision": "pin-before-download"
+    },
+    {
+      "id": "eos-medium-chat",
+      "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+      "format": "safetensors",
+      "quantization": "fp16-or-converted-gguf",
+      "estimated_ram_gib": 8.0,
+      "min_ram_gib": 12,
+      "context_tokens": 8192,
+      "tasks": ["chat", "assistant", "coding"],
+      "architectures": ["x86_64", "aarch64"],
+      "backend": "transformers-or-llama.cpp",
+      "license": "review-required",
+      "revision": "pin-before-download"
+    }
+  ]
+}
