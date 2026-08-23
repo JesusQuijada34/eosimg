@@ -1,0 +1,6 @@
+app eos.browser
+version "0.1.0"
+  text "EOS Browser"
+  text "Motor Gecko gestionado por eos-browserd"
+  text "Sesión Gecko solicitada por eos-browserd"
+end

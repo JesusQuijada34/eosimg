@@ -1,0 +1,25 @@
+{
+  "format": "eapp",
+  "format_version": 2,
+  "identity": {
+    "bundle_id": "eos.browser",
+    "publisher": "Etternhall OS",
+    "author": "EOS Browser Team"
+  },
+  "version": "0.1.0",
+  "api": "EOSKit 0.1",
+  "min_eos": "0.1",
+  "entrypoint": "src/main.eosbc",
+  "targets": ["pc", "touch"],
+  "permissions": ["network.client", "downloads.write", "notifications", "windows.overlay"],
+  "resources": {
+    "icon": "resources/icon.svg",
+    "splash": "resources/splash.svg",
+    "docs": "docs/README.md"
+  },
+  "backend": {
+    "service": "eos-browserd",
+    "engine": "Gecko",
+    "execution": "internal-eos-component"
+  }
+}

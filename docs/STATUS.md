@@ -81,6 +81,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Requisitos y ruta de build Gecko | Documentados; motor pendiente |
 | Servicio `eos-immersived` de notch/ondas/voz | PASS en autoprueba |
 | Contrato `eos-browserd` y descargas dry-run | PASS sin motor web |
+| EOS Browser fuente: manifiesto, recursos y EosLang→EOSBC | PASS; Gecko externo pendiente |
 | Bridge Gecko con perfil/URI aislados | PASS en plan-only |
 | `eos-browserd` C++ con sesión Gecko y URI policy | PASS en autoprueba |
 | `eos-policyd` para llama.cpp/Gecko/permisos | PASS en autoprueba |
