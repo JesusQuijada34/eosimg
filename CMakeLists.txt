@@ -46,6 +46,10 @@ add_executable(eos-sessiond
 )
 target_link_libraries(eos-sessiond PRIVATE Qt6::Core)
 
+add_executable(eos-netd
+    src/eos-core/eos-netd.cpp
+)
+
 add_executable(eos-packaged
     src/eos-core/eos-packaged.cpp
 )
@@ -111,4 +115,4 @@ target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-windowd eos-displayd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-packaged eos-supervise eos-assistantd eos-audiod eos-modeld eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-marketd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-windowd eos-displayd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-netd eos-packaged eos-supervise eos-assistantd eos-audiod eos-modeld eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-marketd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
