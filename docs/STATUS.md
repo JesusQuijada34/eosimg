@@ -17,7 +17,7 @@ Se añadió EosLang 0.1 con compilador a bytecode EOSBC y runtime de referencia.
 
 Se añadió una política de ABI que rechaza `.deb`, AppImage y ELF Linux de usuario desde el launcher oficial. Se añadió recovery con `wipe-cache`, `wipe-data` y `factory-reset`, con confirmación obligatoria y raíz explícita. Se definieron y probaron contenedores preliminares `.edisk` para dispositivos y `.img` para PC; todavía no son imágenes GPT/raw arrancables.
 
-Se añadió `eos-serviced`, que calcula un orden de arranque determinista para los servicios propios de EOS. También se añadió `eos_boot_config.py`, que genera entradas normales y de recovery para UEFI/GRUB a partir de un kernel y un initramfs explícitos. La validación se hizo con un marcador de kernel porque el sandbox no contiene una imagen Linux EOS compilada.
+Se añadió `eos-serviced`, que calcula un orden de arranque determinista para los servicios propios de EOS. También se añadió `eos_boot_config.py`, que genera entradas normales y de recovery para UEFI/GRUB a partir de un kernel y un initramfs explícitos. La validación inicial se hizo con un marcador de kernel; después se instaló un kernel Linux real de desarrollo en el sandbox y el initramfs de EOS arrancó correctamente dentro de QEMU. La imagen sigue siendo experimental y no se publica como release.
 
 Se añadió `eos-sandbox`, que transforma los permisos de `.eapp` en una política declarativa de aislamiento con no-new-privileges, límites de memoria/CPU, montajes privados y acceso a dispositivos denegado por defecto. La aplicación real de namespaces, seccomp y cgroups queda para el supervisor de procesos C++ de EOS.
 
@@ -39,7 +39,8 @@ Se añadió `eos-sandbox`, que transforma los permisos de `.eapp` en una políti
 | Recovery con confirmación | PASS |
 | Contenedores `.edisk` y `.img` de desarrollo | PASS |
 | Gestor de servicios EOS | PASS |
-| Generador de configuración de bootloader | PASS con kernel marcador |
+| Generador de configuración de bootloader | PASS con kernel real de desarrollo |
+| Arranque initramfs + kernel Linux real en QEMU | PASS |
 | Generador de política de sandbox | PASS |
 | Ejecución de una app comercial `.ipa` | No implementada |
 | ISO arrancable completa | No implementada |
@@ -47,4 +48,4 @@ Se añadió `eos-sandbox`, que transforma los permisos de `.eapp` en una políti
 
 ## Próximo hito
 
-El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C++ de EOS, añadir sandbox por proceso y construir un bootloader/instalador de PC que produzca una imagen GPT `.img` con un kernel Linux real configurado para EOS. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados hasta disponer de un runtime compatible verificable.
+El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C++ de EOS, añadir sandbox por proceso y reemplazar el `eos-init` de demostración por un supervisor de procesos real. Después se construirá un bootloader/instalador de PC que produzca una imagen GPT `.img` con un kernel Linux configurado para EOS. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados hasta disponer de un runtime compatible verificable.
