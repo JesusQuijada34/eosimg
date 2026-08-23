@@ -116,6 +116,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | `eos-netd` red brokered y deny-by-default | PASS en autoprueba |
 | `eos-powerd` energía, suspensión y thermal policy | PASS en autoprueba |
 | `eos-deviced` EDAL brokered para hardware | PASS en autoprueba |
+| `eos-ipcd` IPC local brokered y payload versionado | PASS en autoprueba |
 | `eos-sessiond` sesión local y entrega post-OOBE | PASS en root temporal |
 | Handoff OOBE→sesión con rechazo de setup incompleto | PASS |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
