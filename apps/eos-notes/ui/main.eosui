@@ -1,4 +1,5 @@
 schema: eos-ui-0.1
+activity: notes.home
 window:
   id: notes-main
   title: "EOS Notes"

@@ -107,6 +107,11 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Notes multipantalla: `notes.home` + `notes.editor` | PASS temporal en `.eapp` |
 | Validador `.eapp` para actividad principal, layouts y handlers | PASS |
 | `eos-activityd` actividades, lifecycle, navegación y back stack | PASS en autoprueba |
+| `eos-sdk` proyecto v3 con actividades, UI, estilos y animaciones | PASS en autoprueba |
+| `eos-ui-check` layouts EOS UI y controles | PASS |
+| `eos-preview` preview de actividad con hardware simulado | PASS |
+| `eos-debug` trazas EosLang/EOSBC y eventos | PASS |
+| EOS Studio Qt 6: canvas, palette, inspector, código, triggers y consola | PASS en offscreen |
 | Notes multipantalla: `notes.home` + `notes.editor` en `.eapp` | PASS temporal; paquete fuera de Git |
 | Validación integral de build y pruebas | PASS |
 | Validación final de servicios, `git diff --check` y releases | PASS; `no releases found` |
