@@ -1,21 +1,41 @@
 {
   "format": "eapp",
-  "format_version": 2,
+  "format_version": 3,
   "identity": {
     "bundle_id": "com.etternhall.eos.notes",
     "publisher": "Etternhall Labs",
     "author": "EOS Developer"
   },
-  "version": "0.1.0",
-  "api": "elang-0.1",
+  "name": "EOS Notes",
+  "version": "0.2.0",
+  "api": "elang-0.2",
   "min_eos": ">=0.1.0",
-  "entrypoint": "src/main.eosbc",
+  "entrypoint": "bin/main.eosbc",
+  "ui": {
+    "entry": "ui/main.eosui",
+    "framework": "eos-ui-0.1"
+  },
   "targets": ["eos-x86_64", "eos-aarch64"],
-  "permissions": [],
   "resources": {
     "icon": "resources/icon.svg",
     "splash": "resources/splash.svg",
-    "docs": "docs/README.md"
+    "docs": "docs/README.md",
+    "license": "LICENSE"
   },
-  "license": "UNLICENSED-development"
+  "libraries": {
+    "eos.ui": "0.1",
+    "eos.storage": "0.1",
+    "eos.events": "0.1"
+  },
+  "policy": {
+    "permissions": "policy/permissions.yml",
+    "triggers": "policy/triggers.yml"
+  },
+  "signatures": {
+    "manifest": "signatures/manifest.mf",
+    "payload": "signatures/payload.mf"
+  },
+  "payload_sha256": null,
+  "license": "UNLICENSED-development",
+  "created_by": "eos-eapp/0.3"
 }

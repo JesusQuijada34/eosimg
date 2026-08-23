@@ -1,47 +1,144 @@
-# Especificación `.eapp` 0.2
+# Especificación `.eapp` 0.3
 
 ## Propósito
 
-`.eapp` es el formato de distribución de aplicaciones de Etternhall Operating System. El formato es un contenedor binario versionado con un manifiesto canónico, un payload comprimido e integridad verificable. La herramienta oficial `eapp.py` es la implementación de referencia del prototipo.
+`.eapp` es el formato de distribución de aplicaciones de Etternhall Operating System. Es un contenedor binario versionado que transporta una aplicación EOS completa: código EosLang compilado a EOSBC, interfaz declarativa, recursos, metadata, política declarativa y pruebas de integridad. Linux aporta el kernel y los drivers; una aplicación `.eapp` no es un ELF Linux, un `.deb`, un AppImage ni una aplicación de escritorio Linux.
 
-## Manifiesto
+La herramienta oficial `eapp.py` es la implementación de referencia del prototipo. El formato separa deliberadamente responsabilidades: JSON describe la identidad y metadata estable, YAML describe la política legible de permisos y triggers, y los archivos MF contienen los registros criptográficos verificables.
 
-El manifiesto incluye los siguientes campos:
+## Estructura del payload
+
+Cada paquete debe incluir esta estructura relativa:
+
+```text
+manifest.json                 # metadata canónica de aplicación
+policy/permissions.yml        # permisos solicitados y justificación
+policy/triggers.yml           # eventos que pueden despertar la aplicación
+signatures/manifest.mf         # digest y firma del manifest.json
+signatures/payload.mf          # digest y firma del payload comprimido
+src/*.elang                    # fuente opcional incluida para desarrollo/auditoría
+bin/main.eosbc                 # bytecode ejecutable EOSBC
+ui/main.eosui                  # interfaz declarativa EOS UI
+resources/icon.svg             # icono
+resources/splash.svg           # splash
+resources/...                  # recursos de la aplicación
+docs/README.md                 # documentación
+LICENSE                        # licencia
+```
+
+La fuente EosLang puede omitirse en una distribución optimizada, pero `bin/main.eosbc` y la interfaz declarativa siguen siendo obligatorios para una aplicación visual. Las librerías EOS se identifican por módulo y versión en metadata; no se copian arbitrariamente como binarios Linux de usuario.
+
+## `manifest.json`: metadata
+
+`manifest.json` es el único documento de identidad y metadata. Se serializa en JSON canónico, UTF-8, ordenado por claves y con una terminación de línea. Debe contener:
 
 | Campo | Obligatorio | Significado |
 |---|---:|---|
 | `format` | Sí | Debe ser `eapp` |
-| `format_version` | Sí | Versión del contenedor |
+| `format_version` | Sí | `3` para este contrato |
 | `identity.bundle_id` | Sí | Identidad estable de la aplicación |
-| `identity.publisher` | Sí | Entidad que publica el paquete |
-| `identity.key_id` | Con firma | Identificador de la clave pública |
-| `name` | Sí | Nombre de la aplicación |
-| `version` | Sí | Versión de la aplicación |
+| `identity.publisher` | Sí | Entidad publicadora |
+| `identity.author` | Sí | Autoría declarada |
+| `name` | Sí | Nombre visible |
+| `version` | Sí | Versión semántica de la app |
 | `api` | Sí | API de EosLang/EOS utilizada |
 | `min_eos` | Sí | Versión mínima del sistema EOS |
-| `author` | Sí | Autoría declarada |
-| `license` | Sí | Licencia del contenido |
-| `entrypoint` | Sí | Punto de entrada relativo al payload |
-| `targets` | Sí | Arquitecturas o perfiles soportados |
-| `icon` | No | Ruta del icono dentro del payload |
-| `splash` | No | Ruta de la pantalla de inicio |
-| `documentation` | No | Ruta de la documentación incluida |
-| `permissions` | Sí | Capacidades solicitadas por la app |
-| `dependencies` | Sí | Dependencias de otros paquetes |
-| `compression` | Sí | Método de compresión del payload |
-| `payload_sha256` | Sí | Hash de integridad del payload |
-| `signature` | No en desarrollo | Firma Ed25519 y clave pública |
+| `entrypoint` | Sí | Ruta al EOSBC dentro del payload |
+| `ui.entry` | Sí | Ruta al documento EOS UI |
+| `targets` | Sí | Arquitecturas o perfiles EOS soportados |
+| `resources` | Sí | Icono, splash, documentación y licencia |
+| `libraries` | Sí | Módulos EOS requeridos con versión |
+| `policy.permissions` | Sí | Ruta del YAML de permisos |
+| `policy.triggers` | Sí | Ruta del YAML de triggers |
+| `signatures.manifest` | Sí | Ruta del MF del manifest |
+| `signatures.payload` | Sí | Ruta del MF del payload |
+| `payload_sha256` | Sí | Hash del payload comprimido |
+| `created_by` | Sí | Versión de las herramientas oficiales |
 
-## Firma y confianza
+El JSON no decide por sí solo si una capacidad está permitida. Solo referencia los documentos de política y permite que el instalador detecte rápidamente una estructura inconsistente.
 
-La firma cubre el manifiesto sin el campo `signature` más el payload comprimido. La clave pública se incluye para permitir verificación técnica, pero una clave incluida dentro del propio paquete no crea confianza por sí sola. EOS deberá distribuir posteriormente un almacén de claves raíz o claves de repositorio confiables, con rotación y revocación.
+## `permissions.yml`: permisos
 
-La instalación oficial verificará, en este orden, la estructura del contenedor, los límites de tamaño, el JSON, el hash del payload, la firma, la compatibilidad de `min_eos`, el identificador, las rutas y los permisos. Los paquetes sin firma solo podrán instalarse mediante una opción explícita de desarrollo local.
+El YAML de permisos es declarativo y no ejecutable. Su forma inicial es:
 
-## “Solo con la herramienta oficial”
+```yaml
+schema: eos-permissions-0.1
+permissions:
+  - id: storage.user-data
+    access: read-write
+    scope: app-data
+    reason: "Guardar notas del usuario"
+  - id: notifications.post
+    access: request
+    scope: app
+    reason: "Avisar cuando una nota tenga recordatorio"
+```
 
-El sistema puede marcar `.eapp` como formato soportado únicamente por `eos-packaged` y rechazar instalaciones directas desde el shell. Sin embargo, la especificación no debe depender de que el archivo sea imposible de leer: el sistema necesita acceder a sus metadatos y, durante la ejecución, a los recursos y código. El objetivo correcto es **integridad, autenticidad, aislamiento y resistencia al análisis**, no una promesa imposible de inviolabilidad.
+Los identificadores se validan contra el registro de APIs EOS. El instalador y `eos-policyd` aplican una política deny-by-default; la justificación no concede permisos automáticamente. No se permiten comodines, rutas arbitrarias, ejecución de shell, acceso a `/proc` fuera de la interfaz EOS ni acceso directo a dispositivos.
 
-## Protección de contenido
+## `triggers.yml`: eventos
 
-Para proteger secretos, EOS no debe incrustarlos en el paquete. Las claves privadas se mantienen fuera del paquete y los secretos se solicitan a un almacén seguro o a un servicio del usuario. El cifrado opcional en reposo puede añadirse después, con gestión de claves explícita y sin impedir la recuperación legítima del usuario.
+El YAML de triggers declara qué eventos del sistema pueden entregar control a la aplicación. No contiene código ni comandos del sistema:
+
+```yaml
+schema: eos-triggers-0.1
+triggers:
+  - id: app.launch
+    handler: on_launch
+    delivery: foreground
+  - id: notification.action
+    handler: on_notification_action
+    delivery: foreground
+```
+
+Los handlers deben existir en el programa EosLang compilado y solo reciben payloads serializados por el bus EOS. Un trigger no habilita red, micrófono, cámara, ubicación ni ejecución en segundo plano sin el permiso correspondiente y sin aprobación del sistema.
+
+## Archivos `.mf`: firmas
+
+Los archivos MF son registros de integridad y autenticidad, no una extensión de código. La forma canónica inicial es texto UTF-8 con una línea por campo:
+
+```text
+MF-Version: 1
+Algorithm: Ed25519
+Key-ID: 0123456789abcdef
+Subject: manifest.json
+Digest-SHA256: <64 hex chars>
+Signature-Base64: <base64>
+```
+
+`manifest.mf` firma el `manifest.json` canónico más el digest de los documentos de política. `payload.mf` firma el hash del payload comprimido y un inventario ordenado de rutas. EOS debe verificar ambos MF, la clave confiable del repositorio, los hashes y la ausencia de rutas peligrosas antes de instalar. La clave pública incluida no crea confianza por sí sola: la confianza proviene del almacén de claves de EOS y su política de rotación/revocación.
+
+## Interfaz y código
+
+Una aplicación visual no puede ser solamente metadata. Debe incluir un `entrypoint` EOSBC y un `ui.entry` EOS UI. EOS UI será una descripción declarativa de ventanas, páginas, controles, acciones y bindings; el código EosLang manejará estado y eventos mediante APIs de EOSKit. Ningún elemento de UI puede ejecutar shell, cargar un ELF o saltarse `eos-policyd`.
+
+Ejemplo mínimo de UI:
+
+```yaml
+schema: eos-ui-0.1
+window:
+  id: notes-main
+  title: "EOS Notes"
+  safe_area: true
+  children:
+    - type: navigation
+      id: notes-navigation
+      action: open_note
+    - type: text_input
+      id: note-editor
+      bind: state.current_text
+    - type: button
+      id: save
+      text: "Guardar"
+      action: save_note
+```
+
+El ejemplo es YAML porque la UI declarativa debe ser cómoda de revisar, pero su ruta se declara en `manifest.json` y se valida como un documento separado. La política de permisos y triggers sigue estando separada de la interfaz.
+
+## Seguridad y límites honestos
+
+> El objetivo correcto de `.eapp` es **autenticidad, integridad, aislamiento y resistencia al análisis**, no una promesa imposible de que el contenido nunca pueda inspeccionarse.
+
+EOS no ejecuta paquetes sin firma salvo mediante una opción explícita de desarrollo local. No se admiten `.deb`, AppImage, ELF Linux de usuario, scripts de shell como entrypoint ni paquetes que declaren una ruta fuera de su payload. El código puede ser analizado por el sistema y por herramientas autorizadas; las firmas no son anti-ingeniería-inversa absoluta.
+
+La versión 0.3 define el contrato y las validaciones. La enforcement fuerte mediante namespaces, seccomp, cgroups y un bus IPC completo continúa siendo una tarea separada y no debe sobredeclararse como terminada.

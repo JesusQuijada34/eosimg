@@ -6,6 +6,7 @@
     "publisher": "Etternhall OS",
     "author": "EOS Browser Team"
   },
+  "name": "EOS Browser",
   "version": "0.1.0",
   "api": "EOSKit 0.1",
   "min_eos": "0.1",

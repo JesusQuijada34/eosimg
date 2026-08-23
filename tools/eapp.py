@@ -21,6 +21,7 @@ import io
 import json
 import os
 from pathlib import Path
+import shutil
 import struct
 import tarfile
 import tempfile
@@ -29,6 +30,11 @@ import re
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
+
+try:
+    from eoslangc import compile_source
+except ImportError:
+    compile_source = None
 
 MAGIC = b"EAPP\x00\x02\x00\x00"
 HEADER = struct.Struct("<8sQQ")
@@ -116,7 +122,97 @@ def write_package(output: Path, metadata: dict[str, Any], payload: bytes) -> Non
         handle.write(payload)
 
 
+def validate_yaml_policy(path: Path, schema: str, required_key: str) -> None:
+    """Validate the restricted declarative YAML subset used by EOS policies."""
+    raw = path.read_text(encoding="utf-8")
+    if "\t" in raw or f"schema: {schema}" not in raw:
+        raise ValueError(f"invalid {schema} policy: {path}")
+    if f"{required_key}:" not in raw:
+        raise ValueError(f"missing {required_key} in policy: {path}")
+    if any(line.lstrip().startswith(("!", "&", "*", "|", ">")) for line in raw.splitlines()):
+        raise ValueError(f"unsupported YAML construct in policy: {path}")
+
+
+def mf_record(subject: str, digest: str, signature: bytes, key_id: str) -> str:
+    return ("MF-Version: 1\nAlgorithm: Ed25519\nKey-ID: " + key_id +
+            "\nSubject: " + subject + "\nDigest-SHA256: " + digest +
+            "\nSignature-Base64: " + base64.b64encode(signature).decode("ascii") + "\n")
+
+
+def build_v3_payload(source: Path, manifest: dict[str, Any], args: argparse.Namespace) -> tuple[dict[str, Any], bytes]:
+    required = ["policy.permissions", "policy.triggers", "ui.entry", "entrypoint", "signatures.manifest", "signatures.payload"]
+    for field in required:
+        current: Any = manifest
+        for part in field.split("."):
+            if not isinstance(current, dict) or part not in current:
+                raise ValueError(f"v3 manifest missing {field}")
+            current = current[part]
+        if not isinstance(current, str):
+            raise ValueError(f"v3 manifest field must be a path: {field}")
+        if current == manifest.get("entrypoint"):
+            source_candidate = source / "src" / (Path(current).stem + ".elang")
+            if not (source / current).is_file() and not source_candidate.is_file():
+                raise ValueError(f"entrypoint and source are missing: {current}")
+        elif not (source / current).is_file() and not current.startswith("signatures/"):
+            raise ValueError(f"manifest path is missing: {current}")
+    validate_yaml_policy(source / manifest["policy"]["permissions"], "eos-permissions-0.1", "permissions")
+    validate_yaml_policy(source / manifest["policy"]["triggers"], "eos-triggers-0.1", "triggers")
+    if not (source / manifest["ui"]["entry"]).is_file():
+        raise ValueError("v3 UI entry is missing")
+    with tempfile.TemporaryDirectory(prefix="eapp-v3-") as temp:
+        stage = Path(temp) / "payload"
+        shutil.copytree(source, stage)
+        entrypoint = stage / manifest["entrypoint"]
+        if not entrypoint.is_file():
+            if compile_source is None:
+                raise ValueError("EosLang compiler is unavailable for v3 package")
+            source_entry = stage / "src" / (entrypoint.stem + ".elang")
+            if not source_entry.is_file():
+                raise ValueError(f"entrypoint and source are missing: {manifest['entrypoint']}")
+            entrypoint.parent.mkdir(parents=True, exist_ok=True)
+            entrypoint.write_text(json.dumps(compile_source(source_entry.read_text(encoding="utf-8")), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        inner = dict(manifest)
+        inner["payload_sha256"] = None
+        inner["signature"] = None
+        (stage / "manifest.json").write_bytes(canonical_json(inner))
+        base_payload = make_payload(stage)
+        if not args.signing_key:
+            raise ValueError("v3 packages require --signing-key")
+        private_key = load_private_key(Path(args.signing_key))
+        public_bytes = private_key.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw)
+        key_id = sha256(public_bytes)[:16]
+        mf_signature = private_key.sign(canonical_json(inner) + base_payload)
+        payload_signature = private_key.sign(base_payload)
+        (stage / "signatures").mkdir(parents=True, exist_ok=True)
+        (stage / manifest["signatures"]["manifest"]).write_text(mf_record("manifest.json", sha256(canonical_json(inner)), mf_signature, key_id), encoding="utf-8")
+        (stage / manifest["signatures"]["payload"]).write_text(mf_record("payload", sha256(base_payload), payload_signature, key_id), encoding="utf-8")
+        payload = make_payload(stage)
+    manifest = dict(manifest)
+    manifest["payload_sha256"] = sha256(payload)
+    manifest["identity"] = dict(manifest["identity"])
+    manifest["identity"]["key_id"] = key_id
+    unsigned = dict(manifest)
+    unsigned["signature"] = None
+    unsigned_identity = dict(unsigned["identity"])
+    unsigned_identity.pop("key_id", None)
+    unsigned["identity"] = unsigned_identity
+    manifest["signature"] = {
+        "algorithm": "Ed25519",
+        "key_id": key_id,
+        "public_key": base64.b64encode(public_bytes).decode("ascii"),
+        "value": base64.b64encode(private_key.sign(canonical_json(unsigned) + payload)).decode("ascii"),
+    }
+    return manifest, payload
+
+
 def build_package(source: Path, output: Path, args: argparse.Namespace) -> None:
+    source_manifest = source / "eapp.json"
+    if source_manifest.is_file():
+        candidate = json.loads(source_manifest.read_text(encoding="utf-8"))
+        if candidate.get("format_version") == 3:
+            manifest, payload = build_v3_payload(source, candidate, args)
+            write_package(output, manifest, payload)
+            return
     payload = make_payload(source)
     manifest = unsigned_manifest(args, payload)
     if args.signing_key:

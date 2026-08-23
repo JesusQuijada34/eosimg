@@ -1,5 +1,34 @@
 app com.etternhall.eos.notes
-version "0.1.0"
-text "EOS Notes"
-print "Notas locales EOS: listo"
+version "0.2.0"
+use eos.ui as ui
+use eos.storage as storage
+use eos.events as events
+
+state current_text: string = ""
+state notes_count: int = 0
+
+fn on_launch() -> void
+  call ui.show "notes-main"
+  text "EOS Notes listo: tus notas permanecen en EOS"
+endfn
+
+fn open_note() -> void
+  call ui.focus "note-editor"
+endfn
+
+fn save_note() -> bool
+  call storage.append "notes", current_text
+  call ui.toast "Nota guardada localmente"
+  return true
+endfn
+
+fn on_notification_action() -> void
+  call events.ack "notification.action"
+endfn
+
+on app.launch => on_launch
+on notification.action => on_notification_action
+
+let title: string = "Notas locales EOS"
+print title
 end

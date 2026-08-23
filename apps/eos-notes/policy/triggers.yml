@@ -1,0 +1,8 @@
+schema: eos-triggers-0.1
+triggers:
+  - id: app.launch
+    handler: on_launch
+    delivery: foreground
+  - id: notification.action
+    handler: on_notification_action
+    delivery: foreground

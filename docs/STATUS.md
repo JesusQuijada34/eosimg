@@ -125,6 +125,8 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Supervisor C++ endurecido: dumpability, nofile y nproc | PASS en dry-run |
 | Ejecución de una app comercial `.ipa` | No implementada |
 | Ejecución de un `.eapp` EOSBC propio | PASS |
+| `.eapp` v3 con manifest JSON, YAML, UI y MF | PASS temporal; artefacto fuera de Git |
+| Notes EosLang 0.2 → EOSBC 2 → runtime oficial | PASS temporal |
 | ISO arrancable completa | No implementada |
 | Soporte universal de Swift/UIKit/SwiftUI | No implementado |
 

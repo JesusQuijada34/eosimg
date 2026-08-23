@@ -1,0 +1,21 @@
+schema: eos-ui-0.1
+window:
+  id: notes-main
+  title: "EOS Notes"
+  safe_area: true
+  children:
+    - type: navigation
+      id: notes-navigation
+      action: open_note
+    - type: text_input
+      id: note-editor
+      bind: state.current_text
+      placeholder: "Escribe una nota"
+    - type: button
+      id: save
+      text: "Guardar"
+      action: save_note
+    - type: list
+      id: notes-list
+      bind: state.notes
+      item_text: title

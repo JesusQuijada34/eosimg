@@ -15,18 +15,18 @@ def validate(project: Path) -> dict:
     data = json.loads(manifest_path.read_text(encoding="utf-8"))
     identity = data.get("identity", {})
     bundle_id = identity.get("bundle_id")
-    required = ["format", "format_version", "identity", "version", "api", "min_eos", "entrypoint", "targets", "permissions", "resources"]
+    required = ["format", "format_version", "identity", "name", "version", "api", "min_eos", "entrypoint", "targets", "resources"]
     missing = [key for key in required if key not in data]
     if missing:
         raise ValueError(f"{manifest_path}: missing {', '.join(missing)}")
-    if data["format"] != "eapp" or data["format_version"] != 2:
+    if data["format"] != "eapp" or data["format_version"] not in {2, 3}:
         raise ValueError(f"{manifest_path}: unsupported eapp format")
     if not isinstance(bundle_id, str) or not BUNDLE_ID.fullmatch(bundle_id):
         raise ValueError(f"{manifest_path}: invalid bundle_id")
     for field in ("publisher", "author"):
         if not identity.get(field):
             raise ValueError(f"{manifest_path}: identity.{field} is required")
-    entrypoint = project / data["entrypoint"].replace(".eosbc", ".elang")
+    entrypoint = project / data["entrypoint"].replace("bin/main.eosbc", "src/main.elang").replace(".eosbc", ".elang")
     if not entrypoint.is_file():
         raise ValueError(f"{manifest_path}: source entrypoint missing: {entrypoint}")
     resources = data["resources"]
@@ -34,7 +34,20 @@ def validate(project: Path) -> dict:
         resource = project / resources[label]
         if not resource.is_file():
             raise ValueError(f"{manifest_path}: resource {label} missing: {resource}")
-    return {"bundle_id": bundle_id, "version": data["version"], "api": data["api"], "project": str(project)}
+    if data["format_version"] == 3:
+        for path_field in (("ui", "entry"), ("policy", "permissions"), ("policy", "triggers"), ("signatures", "manifest"), ("signatures", "payload")):
+            current = data
+            for part in path_field:
+                current = current.get(part) if isinstance(current, dict) else None
+            if not isinstance(current, str):
+                raise ValueError(f"{manifest_path}: missing {'/'.join(path_field)}")
+            if path_field[0] != "signatures" and not (project / current).is_file():
+                raise ValueError(f"{manifest_path}: referenced file missing: {current}")
+        if not (project / data["ui"]["entry"]).is_file():
+            raise ValueError(f"{manifest_path}: UI entry missing")
+        if "libraries" not in data:
+            raise ValueError(f"{manifest_path}: libraries are required for v3")
+    return {"bundle_id": bundle_id, "version": data["version"], "api": data["api"], "format_version": data["format_version"], "project": str(project)}
 
 
 def main() -> int:

@@ -1,0 +1,10 @@
+schema: eos-permissions-0.1
+permissions:
+  - id: storage.user-data
+    access: read-write
+    scope: app-data
+    reason: "Guardar notas locales del usuario"
+  - id: notifications.post
+    access: request
+    scope: app
+    reason: "Avisar de recordatorios de notas"
