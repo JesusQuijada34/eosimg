@@ -82,6 +82,9 @@ private:
         auto *search = new QPushButton("Buscar", frame);
         search->setObjectName("panelButton");
         layout->addWidget(search);
+        auto *notifications = new QPushButton("BlinkE  2", frame);
+        notifications->setObjectName("panelButton");
+        layout->addWidget(notifications);
         auto *workspaceTitle = new QLabel("Escritorios", frame);
         workspaceTitle->setStyleSheet("color: #9fb0d0; padding-left: 8px;");
         layout->addWidget(workspaceTitle);
@@ -101,6 +104,7 @@ private:
         connect(brand, &QPushButton::clicked, this, [this] { showLauncher(); });
         connect(launcher, &QPushButton::clicked, this, [this] { showLauncher(); });
         connect(search, &QPushButton::clicked, this, [this] { addAppWindow("Buscar EOS", 270, 100, 500, 210, "Busca apps, archivos y ajustes desde el sistema EOS."); });
+        connect(notifications, &QPushButton::clicked, this, [this] { showNotifications(); });
         return frame;
     }
 
@@ -115,6 +119,24 @@ private:
         taskLayout_->addWidget(hint);
         taskLayout_->addStretch();
         return frame;
+    }
+
+    void showNotifications() {
+        auto *dialog = new QDialog(this);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->setWindowTitle("BlinkE — Notificaciones");
+        dialog->resize(440, 330);
+        auto *layout = new QVBoxLayout(dialog);
+        auto *title = new QLabel("Centro BlinkE", dialog);
+        title->setObjectName("desktopTitle");
+        layout->addWidget(title);
+        auto *list = new QListWidget(dialog);
+        list->addItems({"EOS Studio: build completado", "Notes: nota guardada localmente", "eos-netd: permisos de red sin conceder"});
+        layout->addWidget(list);
+        auto *clear = new QPushButton("Marcar todo como leído", dialog);
+        layout->addWidget(clear);
+        connect(clear, &QPushButton::clicked, list, &QListWidget::clear);
+        dialog->show();
     }
 
     void showLauncher() {
