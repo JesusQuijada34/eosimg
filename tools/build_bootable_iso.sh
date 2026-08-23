@@ -32,6 +32,11 @@ menuentry 'Etternhall Operating System (recovery)' {
     linux /boot/eos-linux console=ttyS0 rdinit=/init eos.mode=recovery
     initrd /boot/eos-initramfs.img
 }
+
+menuentry 'Etternhall Operating System (first-boot provision + restart)' {
+    linux /boot/eos-linux console=ttyS0 rdinit=/init eos.mode=provision eos.firstboot=1 eos.reboot=1
+    initrd /boot/eos-initramfs.img
+}
 EOF
 mkdir -p "$(dirname "$OUT")"
 grub-mkrescue -o "$OUT" "$STAGE" >/tmp/eos-grub-mkrescue.log 2>&1
