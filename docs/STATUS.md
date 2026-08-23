@@ -98,6 +98,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Servicio `eos-photod` ePhoto/Carrousel/Editor | PASS en autoprueba |
 | Servicio BlinkE + safe area/notch/window API | PASS en autoprueba |
 | `eos-windowd` safe area y ventanas occlusion-aware | PASS en autoprueba |
+| `eos-displayd` orientación, touch y capa de display | PASS en autoprueba |
 | Validación integral de build y pruebas | PASS |
 | Validación final de servicios, `git diff --check` y releases | PASS; `no releases found` |
 | Arquitectura de plataforma EOS consolidada | Documentada |
