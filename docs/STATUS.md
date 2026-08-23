@@ -19,7 +19,7 @@ Se añadió una política de ABI que rechaza `.deb`, AppImage y ELF Linux de usu
 
 Se añadió `eos-serviced`, que calcula un orden de arranque determinista para los servicios propios de EOS. También se añadió `eos_boot_config.py`, que genera entradas normales y de recovery para UEFI/GRUB a partir de un kernel y un initramfs explícitos. La validación inicial se hizo con un marcador de kernel; después se instaló un kernel Linux real de desarrollo en el sandbox y el initramfs de EOS arrancó correctamente dentro de QEMU. La imagen sigue siendo experimental y no se publica como release.
 
-Se añadió `eos-sandbox`, que transforma los permisos de `.eapp` en una política declarativa de aislamiento con no-new-privileges, límites de memoria/CPU, montajes privados y acceso a dispositivos denegado por defecto. La aplicación real de namespaces, seccomp y cgroups queda para el supervisor de procesos C++ de EOS.
+Se añadió `eos-sandbox`, que transforma los permisos de `.eapp` en una política declarativa de aislamiento con no-new-privileges, límites de memoria/CPU, montajes privados y acceso a dispositivos denegado por defecto. Se añadió `eos-supervise`, un supervisor C++ que restringe el lanzamiento a servicios internos `eos-*`, aplica no-new-privileges y límites iniciales de memoria/CPU; la integración completa de namespaces, seccomp y cgroups queda pendiente.
 
 Se añadió `eos_gpt_image.py`, que genera una imagen raw local de 256 MiB con tabla GPT y particiones EOS-BOOT, EOS-SYSTEM, EOS-RECOVERY, EOS-DATA y EOS-CACHE. `sgdisk --verify` confirma que el layout es válido; la imagen aún no está poblada con un bootloader/producto final y no se publica.
 
@@ -54,6 +54,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Registro de APIs EOS | PASS |
 | Stub local de IA/asistente | PASS |
 | Validación integral de build y pruebas | PASS |
+| Supervisor C++ de procesos y límites iniciales | PASS |
 | Ejecución de una app comercial `.ipa` | No implementada |
 | ISO arrancable completa | No implementada |
 | Soporte universal de Swift/UIKit/SwiftUI | No implementado |

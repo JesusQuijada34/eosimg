@@ -23,6 +23,10 @@ add_executable(eos-serviced
     src/eos-core/eos-serviced.cpp
 )
 
+add_executable(eos-supervise
+    src/eos-core/eos-supervise.cpp
+)
+
 add_executable(eos-assistantd
     src/eos-ai/eos-assistantd.cpp
 )
@@ -35,4 +39,4 @@ target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-init eos-serviced eos-assistantd eos-inputd RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd RUNTIME DESTINATION bin)
