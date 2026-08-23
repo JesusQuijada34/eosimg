@@ -61,9 +61,11 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Verificador GPT/UEFI de `.img` | PASS sin montar ni escribir |
 | Generador de proyectos SDK EOS | PASS |
 | Ejecución de `.eapp` firmado mediante EOSBC | PASS |
+| OOBE Qt 6 con flujo de setup | PASS en modo offscreen |
 | Servicio de entrada táctil | PASS en autoprueba |
 | Registro de APIs EOS | PASS |
 | Stub local de IA/asistente | PASS |
+| Especificación de selección de modelos HF locales | Documentada |
 | Validación integral de build y pruebas | PASS |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |

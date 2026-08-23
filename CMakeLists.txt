@@ -35,8 +35,13 @@ add_executable(eos-inputd
     src/eos-input/eos-inputd.cpp
 )
 
+add_executable(eos-oobe
+    src/eos-oobe/main.cpp
+)
+target_link_libraries(eos-oobe PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
+
 target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe RUNTIME DESTINATION bin)
