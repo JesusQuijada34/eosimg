@@ -40,8 +40,12 @@ add_executable(eos-oobe
 )
 target_link_libraries(eos-oobe PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
 
+add_executable(eos-immersived
+    src/eos-immersive/eos-immersived.cpp
+)
+
 target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived RUNTIME DESTINATION bin)

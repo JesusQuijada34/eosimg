@@ -69,6 +69,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Protección de licencia/revisión/revisión fijada | Documentada |
 | Selector de modelos por RAM/arquitectura | PASS sin descarga |
 | Planificador de asistente local offline | PASS sin ejecución |
+| Servicio `eos-immersived` de notch/ondas/voz | PASS en autoprueba |
 | Validación integral de build y pruebas | PASS |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
