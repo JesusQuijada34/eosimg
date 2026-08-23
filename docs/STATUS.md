@@ -79,6 +79,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Servicio `eos-immersived` de notch/ondas/voz | PASS en autoprueba |
 | Contrato `eos-browserd` y descargas dry-run | PASS sin motor web |
 | Bridge Gecko con perfil/URI aislados | PASS en plan-only |
+| `eos-browserd` C++ con sesión Gecko y URI policy | PASS en autoprueba |
 | Preparador de build Gecko con recursos/revisión fijada | PASS con fixture |
 | Cola de descargas y verificación SHA-256 | PASS sin red |
 | EOS Notes: EosLang → EOSBC → `.eapp` firmado | PASS temporal |
