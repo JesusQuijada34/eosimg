@@ -62,6 +62,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Generador de proyectos SDK EOS | PASS |
 | Ejecución de `.eapp` firmado mediante EOSBC | PASS |
 | OOBE Qt 6 con flujo de setup | PASS en modo offscreen |
+| OOBE persistente/reanudable con `oobe-state.json` | PASS en root temporal |
 | Servicio de entrada táctil | PASS en autoprueba |
 | Registro de APIs EOS | PASS |
 | Stub local de IA/asistente | PASS |
