@@ -9,6 +9,7 @@
 #include <QListWidget>
 #include <QMainWindow>
 #include <QPushButton>
+#include <QStatusBar>
 #include <QPlainTextEdit>
 #include <QTimer>
 #include <QVBoxLayout>
@@ -81,9 +82,15 @@ private:
         auto *search = new QPushButton("Buscar", frame);
         search->setObjectName("panelButton");
         layout->addWidget(search);
-        auto *workspaces = new QPushButton("Escritorios  1  2  3", frame);
-        workspaces->setObjectName("panelButton");
-        layout->addWidget(workspaces);
+        auto *workspaceTitle = new QLabel("Escritorios", frame);
+        workspaceTitle->setStyleSheet("color: #9fb0d0; padding-left: 8px;");
+        layout->addWidget(workspaceTitle);
+        for (int workspace = 1; workspace <= 3; ++workspace) {
+            auto *workspaces = new QPushButton(QString::number(workspace), frame);
+            workspaces->setObjectName("panelButton");
+            layout->addWidget(workspaces);
+            connect(workspaces, &QPushButton::clicked, this, [this, workspace] { switchWorkspace(workspace); });
+        }
         layout->addStretch();
         auto *status = new QLabel("Wi-Fi   Audio   Batería", frame);
         status->setObjectName("clock");
@@ -135,6 +142,7 @@ private:
     void addAppWindow(const QString &title, int x, int y, int width, int height, const QString &body) {
         auto *window = new QFrame(workspace_);
         window->setObjectName("appWindow");
+        window->setProperty("eosWorkspace", currentWorkspace_);
         window->setGeometry(x, y, width, height);
         auto *root = new QVBoxLayout(window);
         root->setContentsMargins(0, 0, 0, 0);
@@ -175,6 +183,14 @@ private:
         window->raise();
     }
 
+    void switchWorkspace(int workspace) {
+        currentWorkspace_ = workspace;
+        for (auto *window : workspace_->findChildren<QFrame *>(QString(), Qt::FindDirectChildrenOnly)) {
+            if (window->objectName() == "appWindow") window->setVisible(window->property("eosWorkspace").toInt() == currentWorkspace_);
+        }
+        statusBar()->showMessage("Workspace " + QString::number(currentWorkspace_) + " activo");
+    }
+
     void updateClock() {
         if (clock_) clock_->setText(QDateTime::currentDateTime().toString("ddd  HH:mm"));
         QTimer::singleShot(1000, this, [this] { updateClock(); });
@@ -183,6 +199,7 @@ private:
     QFrame *workspace_ = nullptr;
     QHBoxLayout *taskLayout_ = nullptr;
     QLabel *clock_ = nullptr;
+    int currentWorkspace_ = 1;
 };
 
 int main(int argc, char **argv) {

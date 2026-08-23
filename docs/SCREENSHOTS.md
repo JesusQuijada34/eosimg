@@ -18,3 +18,4 @@ La captura OOBE fue inspeccionada visualmente y corresponde al primer paso real 
 | `build/captures/etternhall-desktop.png` | Escritorio convencional con panel superior, launcher, búsqueda, selector de workspaces, ventanas Archivos/Notas y barra de tareas | `eos-phone-shell --capture` | 1280×800 |
 
 La captura demuestra el cambio desde el shell de teléfono a un escritorio Qt 6 de desarrollo. Las ventanas son contenedores del shell; las pantallas internas de Notes siguen siendo responsabilidad de `eos-activityd`.
+| `build/captures/etternhall-desktop-workspaces.png` | Escritorio convencional con selector funcional de escritorios 1, 2 y 3; ventanas visibles en el workspace activo | `eos-phone-shell --capture` | 1280×800 |
