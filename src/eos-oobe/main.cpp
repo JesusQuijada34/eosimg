@@ -176,12 +176,15 @@ int main(int argc, char **argv) {
     QApplication app(argc, argv);
     QString root = QDir::temp().filePath("eos-oobe-dev");
     bool selfTest = false;
+    QString capturePath;
     for (int i = 1; i < argc; ++i) {
         if (QString(argv[i]) == "--self-test") selfTest = true;
         if (i + 1 < argc && QString(argv[i]) == "--root") root = QString(argv[i + 1]);
+        if (i + 1 < argc && QString(argv[i]) == "--capture") capturePath = QString(argv[i + 1]);
     }
     EosOobe oobe(root);
     oobe.show();
     if (selfTest) QTimer::singleShot(0, &oobe, [&oobe] { oobe.runSelfTest(); });
+    if (!capturePath.isEmpty()) QTimer::singleShot(250, &oobe, [&oobe, &app, capturePath] { oobe.grab().save(capturePath, "PNG"); app.quit(); });
     return app.exec();
 }

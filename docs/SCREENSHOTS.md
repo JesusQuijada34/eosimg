@@ -12,3 +12,6 @@ Estas capturas se generan localmente durante el desarrollo y permanecen fuera de
 ## Alcance honesto
 
 Las capturas de `eos-phone-shell`, `eos-studio` y `eos-app-preview` son salidas reales de programas Qt 6 compilados en el sandbox. `eos-app-preview` es un preview visual de las actividades Notes y no el compositor de producción del sistema. No debe confundirse con soporte de hardware físico, un motor Gecko integrado o enforcement final de sandbox.
+| `build/captures/eos-oobe-welcome.png` | OOBE inicial: bienvenida, selector de idioma, progreso y acciones Atrás/Omitir/Continuar | `eos-oobe --capture` | 760×520 |
+
+La captura OOBE fue inspeccionada visualmente y corresponde al primer paso real del flujo Qt 6. El progreso, el selector de idioma y los botones pertenecen al prototipo ejecutable; la configuración persistente se guarda en un root EOS de desarrollo.
