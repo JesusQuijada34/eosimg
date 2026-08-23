@@ -25,7 +25,7 @@ def main() -> int:
     (root / "src").mkdir(parents=True, exist_ok=True)
     (root / "resources").mkdir()
     (root / "docs").mkdir()
-    (root / "src" / "main.elang").write_text('app "' + args.bundle_id + '"\nversion "0.1.0"\ntext "Hello from EOS"\nprint "Etternhall app"\n', encoding="utf-8")
+    (root / "src" / "main.elang").write_text('app ' + args.bundle_id + '\nversion "0.1.0"\ntext "Hello from EOS"\nprint "Etternhall app"\nend\n', encoding="utf-8")
     manifest = {
         "format": "eapp",
         "format_version": 2,

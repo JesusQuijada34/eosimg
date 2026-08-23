@@ -60,6 +60,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Población de `EOS-SYSTEM` ext4 | PASS |
 | Verificador GPT/UEFI de `.img` | PASS sin montar ni escribir |
 | Generador de proyectos SDK EOS | PASS |
+| Ejecución de `.eapp` firmado mediante EOSBC | PASS |
 | Servicio de entrada táctil | PASS en autoprueba |
 | Registro de APIs EOS | PASS |
 | Stub local de IA/asistente | PASS |
@@ -67,6 +68,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
 | Ejecución de una app comercial `.ipa` | No implementada |
+| Ejecución de un `.eapp` EOSBC propio | PASS |
 | ISO arrancable completa | No implementada |
 | Soporte universal de Swift/UIKit/SwiftUI | No implementado |
 
