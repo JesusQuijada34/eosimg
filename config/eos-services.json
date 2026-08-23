@@ -18,6 +18,7 @@
     {"name": "eos-mediad", "layer": "app", "dependencies": ["eos-storaged", "eos-policyd"], "network": "consent-only"},
     {"name": "eos-photod", "layer": "app", "dependencies": ["eos-mediad", "eos-windowd", "eos-policyd"], "network": "none"},
     {"name": "eos-launcherd", "layer": "app", "dependencies": ["eos-packaged", "eos-windowd", "eos-policyd"], "network": "none"},
+    {"name": "eos-marketd", "layer": "app", "dependencies": ["eos-packaged", "eos-launcherd", "eos-policyd"], "network": "none"},
     {"name": "eos-phone-shell", "layer": "shell", "dependencies": ["eos-windowd", "eos-packaged", "eos-inputd", "eos-immersived", "eos-blinked"], "network": "none"}
   ]
 }
