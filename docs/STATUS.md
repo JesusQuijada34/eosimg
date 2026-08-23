@@ -17,6 +17,8 @@ Se añadió EosLang 0.1 con compilador a bytecode EOSBC y runtime de referencia.
 
 Se añadió una política de ABI que rechaza `.deb`, AppImage y ELF Linux de usuario desde el launcher oficial. Se añadió recovery con `wipe-cache`, `wipe-data` y `factory-reset`, con confirmación obligatoria y raíz explícita. Se definieron y probaron contenedores preliminares `.edisk` para dispositivos y `.img` para PC; todavía no son imágenes GPT/raw arrancables.
 
+Se añadió `eos-serviced`, que calcula un orden de arranque determinista para los servicios propios de EOS. También se añadió `eos_boot_config.py`, que genera entradas normales y de recovery para UEFI/GRUB a partir de un kernel y un initramfs explícitos. La validación se hizo con un marcador de kernel porque el sandbox no contiene una imagen Linux EOS compilada.
+
 ## Resultados de pruebas
 
 | Prueba | Resultado |
@@ -34,10 +36,12 @@ Se añadió una política de ABI que rechaza `.deb`, AppImage y ELF Linux de usu
 | Rechazo de `.deb` y ELF Linux | PASS |
 | Recovery con confirmación | PASS |
 | Contenedores `.edisk` y `.img` de desarrollo | PASS |
+| Gestor de servicios EOS | PASS |
+| Generador de configuración de bootloader | PASS con kernel marcador |
 | Ejecución de una app comercial `.ipa` | No implementada |
 | ISO arrancable completa | No implementada |
 | Soporte universal de Swift/UIKit/SwiftUI | No implementado |
 
 ## Próximo hito
 
-El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C++ de EOS, añadir sandbox por proceso y construir un bootloader/instalador de PC que produzca una imagen GPT `.img`. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados hasta disponer de un runtime compatible verificable.
+El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C++ de EOS, añadir sandbox por proceso y construir un bootloader/instalador de PC que produzca una imagen GPT `.img` con un kernel Linux real configurado para EOS. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados hasta disponer de un runtime compatible verificable.
