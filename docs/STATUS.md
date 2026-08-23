@@ -77,6 +77,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Servicio `eos-mediad` de foto/audio/vídeo | PASS en autoprueba |
 | Registro `eos-launcherd` de launchers `.eapp` | PASS en autoprueba |
 | Perfil local EOS ID + temas eRalf/eJairo | PASS sin sincronización |
+| Swimmer Time: snapshot/restauración con SHA-256 | PASS en root temporal |
 | Validación integral de build y pruebas | PASS |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
