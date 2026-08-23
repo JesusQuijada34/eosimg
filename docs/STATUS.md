@@ -52,6 +52,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Generador de configuración de bootloader | PASS con kernel real de desarrollo |
 | Arranque initramfs + kernel Linux real en QEMU | PASS |
 | Generador de política de sandbox | PASS |
+| Permisos sandbox para IA, descargas, multimedia, notificaciones y ventanas | PASS; enforcement fuerte pendiente |
 | Teclado virtual Qt 6 | PASS en shell offscreen |
 | Imagen raw GPT `.img` de desarrollo | PASS |
 | ISO GRUB/El Torito de desarrollo | PASS |

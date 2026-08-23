@@ -20,6 +20,11 @@ KNOWN_PERMISSIONS = {
     "camera": {"devices.camera": "prompt"},
     "microphone": {"devices.microphone": "prompt"},
     "location": {"sensors.location": "prompt"},
+    "ai.local": {"models.local": "read-only"},
+    "downloads.write": {"downloads": "consent-required"},
+    "media.library": {"media.library": "read-write"},
+    "notifications": {"notifications": "allow"},
+    "windows.overlay": {"windows.overlay": "safe-area-aware"},
 }
 
 
@@ -45,7 +50,7 @@ def policy_for(package: Path) -> dict:
         "mounts": mounts,
         "capabilities": capabilities,
         "process": {"no_new_privileges": True, "memory_limit_mb": 512, "cpu_quota_percent": 100, "device_access": "deny-by-default"},
-        "enforcement": "planned-in-eos-process-supervisor",
+        "enforcement": "rlimits-and-no-new-privileges-now; namespaces-seccomp-cgroups-pending",
     }
 
 
