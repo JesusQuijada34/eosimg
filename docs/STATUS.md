@@ -72,6 +72,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Planificador de asistente local offline | PASS sin ejecución |
 | Build real `llama.cpp` CPU en revisión fijada | PASS sin modelo |
 | Adaptador EOS `llama.cpp` offline con hash obligatorio | PASS en plan-only |
+| Preflight GGUF: magic, versión, tamaño y SHA-256 | PASS con fixture; sin inferencia |
 | Servicio `eos-immersived` de notch/ondas/voz | PASS en autoprueba |
 | Contrato `eos-browserd` y descargas dry-run | PASS sin motor web |
 | Cola de descargas y verificación SHA-256 | PASS sin red |
