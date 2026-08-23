@@ -64,8 +64,12 @@ add_executable(eos-blinked
     src/eos-notify/eos-blinked.cpp
 )
 
+add_executable(eos-policyd
+    src/eos-security/eos-policyd.cpp
+)
+
 target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
