@@ -1,0 +1,29 @@
+{
+  "schema": "eos-sdk-0.1",
+  "name": "EOS SDK",
+  "version": "0.1.0-dev",
+  "host_targets": ["linux-x86_64", "windows-x86_64", "macos-arm64"],
+  "profiles": {
+    "starter": {
+      "purpose": "Crear y validar apps EOS pequeñas",
+      "components": ["eos-sdk-cli", "eoslangc", "eos-ui-check", "eos-preview", "eos-debug", "templates"],
+      "size_class": "hundreds-of-megabytes"
+    },
+    "studio": {
+      "purpose": "Diseño visual con EOS Studio",
+      "components": ["starter", "eos-studio-qt6", "qt6-designer-runtime", "ui-controls", "preview-assets"],
+      "size_class": "one-to-several-gigabytes"
+    },
+    "offline-full": {
+      "purpose": "Desarrollo sin red y builds por arquitectura",
+      "components": ["studio", "eos-toolchains", "eos-runtime-symbols", "documentation-offline", "test-images", "debug-symbols"],
+      "size_class": "several-gigabytes"
+    }
+  },
+  "distribution_policy": {
+    "apps_are": "EosLang/EOSBC signed .eapp",
+    "apps_are_not": ["Linux ELF user application", ".deb", "AppImage", "generic Qt desktop package"],
+    "private_keys": "external-keystore-only",
+    "models": "optional-local-assets-outside-source-repository"
+  }
+}

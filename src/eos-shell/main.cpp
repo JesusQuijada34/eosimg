@@ -112,5 +112,12 @@ int main(int argc, char **argv) {
     QApplication app(argc, argv);
     EosPhoneShell shell;
     shell.show();
+    if (argc == 3 && QString::fromLocal8Bit(argv[1]) == "--capture") {
+        const QString path = QString::fromLocal8Bit(argv[2]);
+        QTimer::singleShot(250, &shell, [&shell, &app, path] {
+            shell.grab().save(path, "PNG");
+            app.quit();
+        });
+    }
     return app.exec();
 }

@@ -71,6 +71,11 @@ add_executable(eos-activityd
     src/eos-app/eos-activityd.cpp
 )
 
+add_executable(eos-app-preview
+    src/eos-app/eos-app-preview.cpp
+)
+target_link_libraries(eos-app-preview PRIVATE Qt6::Widgets)
+
 add_executable(eos-packaged
     src/eos-core/eos-packaged.cpp
 )
@@ -136,4 +141,4 @@ target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-studio eos-windowd eos-displayd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-netd eos-powerd eos-deviced eos-ipcd eos-activityd eos-packaged eos-supervise eos-assistantd eos-audiod eos-modeld eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-marketd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-studio eos-app-preview eos-windowd eos-displayd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-netd eos-powerd eos-deviced eos-ipcd eos-activityd eos-packaged eos-supervise eos-assistantd eos-audiod eos-modeld eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-marketd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)

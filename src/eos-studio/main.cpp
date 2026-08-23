@@ -11,6 +11,7 @@
 #include <QMainWindow>
 #include <QPlainTextEdit>
 #include <QPushButton>
+#include <QTimer>
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QStatusBar>
@@ -175,5 +176,13 @@ int main(int argc, char **argv) {
     QApplication app(argc, argv);
     StudioWindow window;
     window.show();
+    QString capture_path;
+    if (argc == 3 && QString::fromLocal8Bit(argv[1]) == "--capture") {
+        capture_path = QString::fromLocal8Bit(argv[2]);
+        QTimer::singleShot(250, &window, [&window, &app, capture_path] {
+            window.grab().save(capture_path, "PNG");
+            app.quit();
+        });
+    }
     return app.exec();
 }

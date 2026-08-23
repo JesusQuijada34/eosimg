@@ -112,6 +112,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | `eos-preview` preview de actividad con hardware simulado | PASS |
 | `eos-debug` trazas EosLang/EOSBC y eventos | PASS |
 | EOS Studio Qt 6: canvas, palette, inspector, código, triggers y consola | PASS en offscreen |
+| Capturas PNG del shell, EOS Studio y actividades Notes | PASS; assets locales fuera de Git |
 | Notes multipantalla: `notes.home` + `notes.editor` en `.eapp` | PASS temporal; paquete fuera de Git |
 | Validación integral de build y pruebas | PASS |
 | Validación final de servicios, `git diff --check` y releases | PASS; `no releases found` |
