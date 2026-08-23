@@ -1,0 +1,5 @@
+app com.etternhall.eos.notes
+version "0.1.0"
+text "EOS Notes"
+print "Notas locales EOS: listo"
+end

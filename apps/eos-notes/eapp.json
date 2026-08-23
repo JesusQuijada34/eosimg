@@ -1,0 +1,21 @@
+{
+  "format": "eapp",
+  "format_version": 2,
+  "identity": {
+    "bundle_id": "com.etternhall.eos.notes",
+    "publisher": "Etternhall Labs",
+    "author": "EOS Developer"
+  },
+  "version": "0.1.0",
+  "api": "elang-0.1",
+  "min_eos": ">=0.1.0",
+  "entrypoint": "src/main.eosbc",
+  "targets": ["eos-x86_64", "eos-aarch64"],
+  "permissions": [],
+  "resources": {
+    "icon": "resources/icon.svg",
+    "splash": "resources/splash.svg",
+    "docs": "docs/README.md"
+  },
+  "license": "UNLICENSED-development"
+}

@@ -72,6 +72,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Servicio `eos-immersived` de notch/ondas/voz | PASS en autoprueba |
 | Contrato `eos-browserd` y descargas dry-run | PASS sin motor web |
 | Cola de descargas y verificación SHA-256 | PASS sin red |
+| EOS Notes: EosLang → EOSBC → `.eapp` firmado | PASS temporal |
 | Validación integral de build y pruebas | PASS |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
@@ -83,6 +84,8 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 ## Próximo hito
 
 El contrato inicial de navegador ya existe, pero todavía no es un navegador web: falta seleccionar y compilar un backend Gecko permitido, integrar perfiles/procesos y añadir una UI Qt 6. La red y las descargas permanecen desactivadas en el prototipo.
+
+La primera utilidad fuente, `apps/eos-notes`, ya valida el flujo EosLang → EOSBC → `.eapp` firmado en un directorio temporal. El paquete generado, sus claves de prueba y sus imágenes no se versionan.
 
 El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C++ de EOS, añadir sandbox por proceso y reemplazar el `eos-init` de demostración por un supervisor de procesos real. Después se construirá un bootloader/instalador de PC que produzca una imagen GPT `.img` con un kernel Linux configurado para EOS. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados hasta disponer de un runtime compatible verificable.
 
