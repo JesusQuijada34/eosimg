@@ -103,6 +103,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | `eos-sessiond` sesión local y entrega post-OOBE | PASS en root temporal |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
+| Supervisor C++ endurecido: dumpability, nofile y nproc | PASS en dry-run |
 | Ejecución de una app comercial `.ipa` | No implementada |
 | Ejecución de un `.eapp` EOSBC propio | PASS |
 | ISO arrancable completa | No implementada |

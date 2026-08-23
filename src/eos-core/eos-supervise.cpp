@@ -7,6 +7,7 @@
 #include <sys/resource.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 namespace fs = std::filesystem;
 
@@ -35,7 +36,7 @@ int main(int argc, char **argv) {
         std::cerr << "eos-supervise: refusing non-EOS internal executable\n";
         return 3;
     }
-    std::cout << "service=" << service << " executable=" << executable << " sandbox=no-new-privileges,rlimit-as=512MiB,rlimit-cpu=30s\n";
+    std::cout << "service=" << service << " executable=" << executable << " sandbox=no-new-privileges,rlimit-as=512MiB,rlimit-cpu=30s,rlimit-nofile=256,rlimit-nproc=64\n";
     if (dry_run) return 0;
 
     const pid_t child = fork();
@@ -45,9 +46,14 @@ int main(int argc, char **argv) {
     }
     if (child == 0) {
         if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) != 0) _exit(120);
+        if (prctl(PR_SET_DUMPABLE, 0, 0, 0, 0) != 0) _exit(122);
+        umask(0077);
+        if (chdir("/") != 0) _exit(123);
         try {
             set_limit(RLIMIT_AS, 512ULL * 1024ULL * 1024ULL, 512ULL * 1024ULL * 1024ULL);
             set_limit(RLIMIT_CPU, 30, 30);
+            set_limit(RLIMIT_NOFILE, 256, 256);
+            set_limit(RLIMIT_NPROC, 64, 64);
         } catch (...) {
             _exit(121);
         }
