@@ -27,7 +27,7 @@ El shell Qt 6 incorpora un teclado virtual táctil de demostración con entrada 
 
 Se añadió `build_bootable_iso.sh`, que construye localmente una ISO El Torito/GRUB con el kernel Linux real de desarrollo, initramfs EOS y entradas normal/recovery. La ISO arranca como artefacto de desarrollo y no se publica como release.
 
-Se añadió `populate_gpt_image.sh`, que crea una ESP FAT32 dentro de la imagen GPT y copia un GRUB UEFI standalone, el kernel y el initramfs EOS. `sgdisk --verify` confirma el layout después de poblarla. La imagen GPT ya arranca por UEFI en OVMF y llega al initramfs de EOS. Sigue siendo una imagen de desarrollo: todavía faltan el userland persistente, un bootloader EOS propio y pruebas sobre hardware físico.
+Se añadió `populate_gpt_image.sh`, que crea una ESP FAT32 dentro de la imagen GPT y copia un GRUB UEFI standalone, el kernel y el initramfs EOS. `sgdisk --verify` confirma el layout después de poblarla. La imagen GPT ya arranca por UEFI en OVMF y llega al initramfs de EOS. El poblador ahora crea una partición `EOS-SYSTEM` ext4 con `eos-release` y metadatos mínimos del userland; la prueba UEFI sigue pasando. Sigue siendo una imagen de desarrollo: todavía faltan el userland persistente completo, un bootloader EOS propio y pruebas sobre hardware físico.
 
 Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clasifica taps y deslizamientos básicos. La autoprueba pasa sin hardware físico; la integración posterior utilizará dispositivos de entrada del kernel mediante EDAL, sin exponer directamente sus eventos a las aplicaciones.
 
@@ -57,6 +57,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | ISO GRUB/El Torito de desarrollo | PASS |
 | ESP FAT32 + GRUB UEFI en `.img` GPT | PASS |
 | Arranque UEFI de `.img` GPT en OVMF | PASS |
+| Población de `EOS-SYSTEM` ext4 | PASS |
 | Servicio de entrada táctil | PASS en autoprueba |
 | Registro de APIs EOS | PASS |
 | Stub local de IA/asistente | PASS |
