@@ -160,6 +160,20 @@ def build_v3_payload(source: Path, manifest: dict[str, Any], args: argparse.Name
     validate_yaml_policy(source / manifest["policy"]["triggers"], ("eos-triggers-0.1", "eos-triggers-0.2"), "triggers")
     if not (source / manifest["ui"]["entry"]).is_file():
         raise ValueError("v3 UI entry is missing")
+    activities = manifest.get("activities")
+    if not isinstance(activities, dict) or not isinstance(activities.get("main"), str) or not isinstance(activities.get("definitions"), list):
+        raise ValueError("v3 activities.main and activities.definitions are required")
+    definitions = activities["definitions"]
+    activity_ids = {item.get("id") for item in definitions if isinstance(item, dict)}
+    if activities["main"] not in activity_ids or not activity_ids:
+        raise ValueError("v3 activities.main must reference a definition")
+    for definition in definitions:
+        if not isinstance(definition, dict) or not all(key in definition for key in ("id", "title", "ui", "entry", "exported", "orientation", "restore")):
+            raise ValueError("invalid v3 activity definition")
+        if not IDENTIFIER.fullmatch(str(definition["id"])) or not isinstance(definition["ui"], str) or not (source / definition["ui"]).is_file():
+            raise ValueError(f"invalid or missing activity UI: {definition.get('id')}")
+        if not isinstance(definition["entry"], str) or not IDENTIFIER.fullmatch(definition["entry"]):
+            raise ValueError(f"invalid activity handler: {definition.get('id')}")
     with tempfile.TemporaryDirectory(prefix="eapp-v3-") as temp:
         stage = Path(temp) / "payload"
         shutil.copytree(source, stage)
@@ -171,7 +185,12 @@ def build_v3_payload(source: Path, manifest: dict[str, Any], args: argparse.Name
             if not source_entry.is_file():
                 raise ValueError(f"entrypoint and source are missing: {manifest['entrypoint']}")
             entrypoint.parent.mkdir(parents=True, exist_ok=True)
-            entrypoint.write_text(json.dumps(compile_source(source_entry.read_text(encoding="utf-8")), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            program = compile_source(source_entry.read_text(encoding="utf-8"))
+            handlers = set(program.get("functions", {}))
+            missing_handlers = [item["entry"] for item in activities["definitions"] if item["entry"] not in handlers]
+            if missing_handlers:
+                raise ValueError(f"activity handlers missing from EosLang: {', '.join(missing_handlers)}")
+            entrypoint.write_text(json.dumps(program, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         inner = dict(manifest)
         inner["payload_sha256"] = None
         inner["signature"] = None

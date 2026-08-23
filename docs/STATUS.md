@@ -105,6 +105,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | `eos-displayd` orientación, touch y capa de display | PASS en autoprueba |
 | `eos-activityd` actividades EOS, lifecycle y back stack | PASS en autoprueba |
 | Notes multipantalla: `notes.home` + `notes.editor` | PASS temporal en `.eapp` |
+| Validador `.eapp` para actividad principal, layouts y handlers | PASS |
 | `eos-activityd` actividades, lifecycle, navegación y back stack | PASS en autoprueba |
 | Notes multipantalla: `notes.home` + `notes.editor` en `.eapp` | PASS temporal; paquete fuera de Git |
 | Validación integral de build y pruebas | PASS |
