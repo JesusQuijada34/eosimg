@@ -1,0 +1,2 @@
+#!/bin/sh
+printf '%s\n' 'Hola desde una aplicación EOS de demostración.'

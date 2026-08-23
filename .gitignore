@@ -1,0 +1,30 @@
+# Build and generated artifacts
+build/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Cryptographic material — never commit private keys
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local packages and images; release publishing is intentionally disabled for now
+*.eapp
+*.edisk
+*.img
+
+# Local tooling and editor files
+.vscode/
+.idea/
+.DS_Store

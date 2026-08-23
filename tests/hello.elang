@@ -1,0 +1,7 @@
+# EosLang 0.1 demo
+app com.etternhall.hello
+version "0.1.0"
+let title = "Etternhall"
+text "Hola desde EOS"
+print title
+end
