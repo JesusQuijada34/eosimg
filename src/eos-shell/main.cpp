@@ -1,8 +1,10 @@
 #include <QApplication>
 #include <QDateTime>
+#include <QDialog>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QScreen>
@@ -55,11 +57,40 @@ public:
 
         auto *dock = new QHBoxLayout();
         dock->setSpacing(8);
-        for (const auto &name : {QString("Inicio"), QString("Buscar"), QString("Biblioteca")}) {
+        for (const auto &name : {QString("Inicio"), QString("Buscar"), QString("Biblioteca"), QString("Teclado")}) {
             auto *button = new QPushButton(name, this);
             button->setProperty("class", "dock");
             button->setObjectName("dock");
             dock->addWidget(button, 1);
+            if (name == "Teclado") {
+                connect(button, &QPushButton::clicked, this, [this] {
+                    auto *dialog = new QDialog(this);
+                    dialog->setAttribute(Qt::WA_DeleteOnClose);
+                    dialog->setWindowTitle("EOS Virtual Keyboard");
+                    dialog->setMinimumWidth(360);
+                    auto *layout = new QVBoxLayout(dialog);
+                    auto *input = new QLineEdit(dialog);
+                    input->setPlaceholderText("Escribe con el teclado EOS");
+                    layout->addWidget(input);
+                    auto *keys = new QGridLayout();
+                    const QString rows[] = {"QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"};
+                    for (int row = 0; row < 3; ++row) {
+                        for (int column = 0; column < rows[row].size(); ++column) {
+                            const QString key = rows[row].mid(column, 1);
+                            auto *keyButton = new QPushButton(key, dialog);
+                            keyButton->setProperty("class", "app");
+                            connect(keyButton, &QPushButton::clicked, dialog, [input, key] { input->insert(key); });
+                            keys->addWidget(keyButton, row, column);
+                        }
+                    }
+                    auto *space = new QPushButton("Espacio", dialog);
+                    space->setProperty("class", "dock");
+                    connect(space, &QPushButton::clicked, dialog, [input] { input->insert(" "); });
+                    keys->addWidget(space, 3, 0, 1, 10);
+                    layout->addLayout(keys);
+                    dialog->show();
+                });
+            }
         }
         root->addLayout(dock);
         auto *home = new QLabel(this);
