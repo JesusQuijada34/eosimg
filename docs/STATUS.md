@@ -59,6 +59,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Arranque UEFI de `.img` GPT en OVMF | PASS |
 | Población de `EOS-SYSTEM` ext4 | PASS |
 | Verificador GPT/UEFI de `.img` | PASS sin montar ni escribir |
+| Generador de proyectos SDK EOS | PASS |
 | Servicio de entrada táctil | PASS en autoprueba |
 | Registro de APIs EOS | PASS |
 | Stub local de IA/asistente | PASS |
