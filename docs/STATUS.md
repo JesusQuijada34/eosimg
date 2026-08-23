@@ -104,6 +104,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | `eos-logd` logging estructurado JSONL | PASS en root temporal |
 | `eos-storaged` roots lógicos y escritura atómica | PASS en root temporal |
 | `eos-sessiond` sesión local y entrega post-OOBE | PASS en root temporal |
+| Handoff OOBE→sesión con rechazo de setup incompleto | PASS |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
 | Supervisor C++ endurecido: dumpability, nofile y nproc | PASS en dry-run |
