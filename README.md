@@ -4,7 +4,8 @@ EOS es una plataforma experimental construida sobre el kernel Linux, con servici
 
 ## Estado actual
 
-La versión 0.1 define una arquitectura por capas similar en organización a AOSP, pero con nombres, contratos y componentes propios. Se ha implementado un formato `.eapp` versionado con manifiesto JSON canónico, identidad de bundle, publisher, autor, licencia, versión, API de EosLang, versión mínima de EOS, entrypoint, targets, icono, splash, documentación, permisos, dependencias, payload comprimido, hash SHA-256 y firma Ed25519 opcional. La herramienta solo empaqueta, inspecciona y extrae; nunca ejecuta contenido automáticamente.
+La versión 0.1 define una arquitectura por capas similar en organización a AOSP, pero con nombres, contratos y componentes propios. Se ha implementado un formato `.eapp` versionado con manifiesto JSON canónico, identidad de bundle, publisher, autor, licencia, versión, API de EosLang, versión mínima de EOS, entrypoint, targets, icono, splash, documentación, permisos, dependencias, payload comprimido, hash SHA-256 y firma Ed25519 opcional. Un registro de APIs EOS valida que la aplicación solicite una API conocida y versionada.
+ La herramienta solo empaqueta, inspecciona y extrae; nunca ejecuta contenido automáticamente.
 
 ## Estructura
 
@@ -19,6 +20,7 @@ La versión 0.1 define una arquitectura por capas similar en organización a AOS
 | `tools/eos_runner.py` | Runner de VM para Windows/Linux |
 | `tools/eos_sandbox.py` | Política de permisos y sandbox |
 | `tools/eos_build.py` | Motor de compilación coordinado |
+| `tools/eos_api.py` | Registro y comprobación de APIs EOS |
 | `tools/eoslangc.py` / `tools/eosrun.py` | Compilador y runtime EosLang |
 | `src/` | Servicios C++ y shell Qt 6 de EOS |
 | `tests/` | Pruebas del formato y de los servicios |
