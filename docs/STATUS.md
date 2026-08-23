@@ -62,3 +62,5 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 ## Próximo hito
 
 El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C++ de EOS, añadir sandbox por proceso y reemplazar el `eos-init` de demostración por un supervisor de procesos real. Después se construirá un bootloader/instalador de PC que produzca una imagen GPT `.img` con un kernel Linux configurado para EOS. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados hasta disponer de un runtime compatible verificable.
+
+Se añadió `eos-update.py` con slots A/B, staging atómico, activación en el siguiente arranque, confirmación de éxito y rollback. La prueba local completó staging en B, marcó el slot como exitoso y volvió a A mediante rollback. El gestor todavía opera sobre un directorio de desarrollo y no modifica variables UEFI ni discos físicos.
