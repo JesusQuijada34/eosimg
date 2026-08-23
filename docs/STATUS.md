@@ -76,6 +76,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Preflight GGUF: magic, versión, tamaño y SHA-256 | PASS con fixture; sin inferencia |
 | Descarga autorizada Qwen2.5 0.5B Q4_K_M | PASS; revisión/licencia/hash fijados |
 | Inferencia real `llama.cpp` offline | PASS; CPU, contexto 512, GPU layers 0 |
+| `eos-audiod` audio local y eventos de voz | PASS; micrófono desactivado |
 | Requisitos y ruta de build Gecko | Documentados; motor pendiente |
 | Servicio `eos-immersived` de notch/ondas/voz | PASS en autoprueba |
 | Contrato `eos-browserd` y descargas dry-run | PASS sin motor web |

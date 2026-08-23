@@ -50,6 +50,10 @@ add_executable(eos-assistantd
     src/eos-ai/eos-assistantd.cpp
 )
 
+add_executable(eos-audiod
+    src/eos-ai/eos-audiod.cpp
+)
+
 add_executable(eos-inputd
     src/eos-input/eos-inputd.cpp
 )
@@ -91,4 +95,4 @@ target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-windowd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-windowd eos-init eos-serviced eos-logd eos-storaged eos-sessiond eos-supervise eos-assistantd eos-audiod eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
