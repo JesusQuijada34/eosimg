@@ -8,6 +8,10 @@ OUT="$ROOT/build/eos-initramfs.img"
 rm -rf "$ROOTFS"
 mkdir -p "$ROOTFS"/{bin,etc,proc,sys,dev,tmp,var/log,var/lib/eos,eos-system/{bin,etc,docs}}
 
+# Record the exact compiled targets staged by the development build. The
+# manifest is generated locally and is never committed as a release artifact.
+python3 "$ROOT/tools/eos_userland_manifest.py" "$ROOT/build/cmake" "$ROOT/build/eos-userland-manifest.json" >/dev/null
+
 # Init and first-boot provisioning are static so the development image does not
 # depend on host libraries. Applications remain signed .eapp payloads and are
 # not converted into Linux user ELF programs.
@@ -19,6 +23,7 @@ done
 
 cp "$ROOT/config/eos-services.json" "$ROOTFS/eos-system/etc/eos-services.json"
 cp "$ROOT/sdk/eos-sdk.json" "$ROOTFS/eos-system/etc/eos-sdk.json"
+cp "$ROOT/build/eos-userland-manifest.json" "$ROOTFS/eos-system/etc/eos-userland-manifest.json"
 cp "$ROOT/docs/PLATFORM_ARCHITECTURE.md" "$ROOTFS/eos-system/docs/PLATFORM_ARCHITECTURE.md"
 cp "$ROOT/docs/ETTERNHALL_DESKTOP_ARCHITECTURE.md" "$ROOTFS/eos-system/docs/ETTERNHALL_DESKTOP_ARCHITECTURE.md"
 
