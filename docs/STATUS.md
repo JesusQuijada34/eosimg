@@ -98,6 +98,7 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Arquitectura de plataforma EOS consolidada | Documentada |
 | Presets CMake + `eos-build` source-only | PASS |
 | Grafo declarativo completo de servicios EOS | PASS; sin ciclos |
+| `eos-logd` logging estructurado JSONL | PASS en root temporal |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
 | Ejecución de una app comercial `.ipa` | No implementada |

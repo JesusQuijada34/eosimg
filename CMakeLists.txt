@@ -23,6 +23,11 @@ add_executable(eos-serviced
     src/eos-core/eos-serviced.cpp
 )
 
+add_executable(eos-logd
+    src/eos-core/eos-logd.cpp
+)
+target_link_libraries(eos-logd PRIVATE Qt6::Core)
+
 add_executable(eos-supervise
     src/eos-core/eos-supervise.cpp
 )
@@ -72,4 +77,4 @@ target_compile_options(eos-phone-shell PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall;-Wextra;-Wpedantic>
 )
 
-install(TARGETS eos-phone-shell eos-init eos-serviced eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
+install(TARGETS eos-phone-shell eos-init eos-serviced eos-logd eos-supervise eos-assistantd eos-inputd eos-oobe eos-immersived eos-browserd eos-mediad eos-launcherd eos-photod eos-blinked eos-policyd RUNTIME DESTINATION bin)
