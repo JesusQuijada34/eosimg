@@ -1,0 +1,20 @@
+schema: eos-animation-0.1
+animations:
+  - id: home-enter
+    target: notes-home
+    activity: notes.home
+    state: enter
+    duration_ms: 180
+    easing: standard
+    property: opacity
+    from: 0
+    to: 1
+  - id: editor-enter
+    target: notes-editor
+    activity: notes.editor
+    state: enter
+    duration_ms: 160
+    easing: standard
+    property: translate-x
+    from: 24
+    to: 0

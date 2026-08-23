@@ -1,0 +1,12 @@
+@activity notes.home {
+  background: eos.surface;
+  color: eos.on-surface;
+  safe-area: avoid;
+}
+
+@activity notes.editor {
+  background: eos.surface;
+  color: eos.on-surface;
+  touch-target: comfortable;
+  focus-ring: eos.accent;
+}
