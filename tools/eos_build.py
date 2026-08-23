@@ -45,7 +45,7 @@ def main() -> int:
         revision = subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
         revision = "unavailable"
-    targets = ["eos-init", "eos-serviced", "eos-logd", "eos-storaged", "eos-sessiond", "eos-packaged", "eos-supervise", "eos-assistantd", "eos-audiod", "eos-modeld", "eos-inputd", "eos-oobe", "eos-displayd", "eos-windowd", "eos-immersived", "eos-browserd", "eos-mediad", "eos-launcherd", "eos-marketd", "eos-photod", "eos-blinked", "eos-policyd", "eos-phone-shell"]
+    targets = ["eos-init", "eos-serviced", "eos-logd", "eos-storaged", "eos-sessiond", "eos-netd", "eos-packaged", "eos-supervise", "eos-assistantd", "eos-audiod", "eos-modeld", "eos-inputd", "eos-oobe", "eos-displayd", "eos-windowd", "eos-immersived", "eos-browserd", "eos-mediad", "eos-launcherd", "eos-marketd", "eos-photod", "eos-blinked", "eos-policyd", "eos-phone-shell"]
     manifest = {
         "product": "Etternhall Operating System",
         "build_engine": "eos-build/0.2",
