@@ -1,6 +1,6 @@
 # Etternhall Operating System (EOS)
 
-EOS es una plataforma experimental construida sobre el kernel Linux, con servicios, shell y formato de aplicaciones propios. El repositorio actual contiene la especificación y el primer prototipo de herramientas; todavía no es una imagen arrancable ni un runtime completo para `.ipa`.
+EOS es una plataforma experimental construida sobre el kernel Linux, con userland, servicios, shell y formato de aplicaciones propios. El repositorio actual contiene una base compilable del sistema: servicios C++ de core/EDAL, shell Qt 6, OOBE persistente, runtime EosLang/EOSBC, apps fuente `.eapp`, IA local con `llama.cpp` y contratos de Browser/Gecko. Todavía no es una imagen de producción ni un runtime completo para `.ipa`.
 
 ## Estado actual
 
@@ -19,11 +19,15 @@ La versión 0.1 define una arquitectura por capas similar en organización a AOS
 | `tools/eos_boot.py` | Inspector y planificador de boot |
 | `tools/eos_runner.py` | Runner de VM para Windows/Linux |
 | `tools/eos_sandbox.py` | Política de permisos y sandbox |
-| `tools/eos_build.py` | Motor de compilación coordinado |
+| `tools/eos_build.py` | Motor de compilación coordinado y manifiesto source-only |
+| `tools/eos_service_graph.py` | Grafo declarativo de servicios |
+| `tools/eos_llama_backend.py` / `tools/eos_gguf_validate.py` | Backend local offline y preflight GGUF |
+| `tools/eos_gecko_bridge.py` / `tools/eos_gecko_prepare.py` | Bridge y preparación del backend Gecko |
 | `tools/eos_api.py` | Registro y comprobación de APIs EOS |
 | `tools/ipa_compat.py` | Matriz pasiva de compatibilidad IPA/Mach-O |
 | `tools/eoslangc.py` / `tools/eosrun.py` | Compilador y runtime EosLang |
-| `src/` | Servicios C++ y shell Qt 6 de EOS |
+| `src/` | Servicios C++ core/EDAL, IA, Browser, multimedia, seguridad y shell Qt 6 |
+| `apps/eos-browser/` | Primera app fuente Browser con backend Gecko declarado |
 | `tests/` | Pruebas del formato y de los servicios |
 
 ## Uso del prototipo `.eapp`
@@ -54,11 +58,13 @@ python3 tools/eos_recovery.py wipe-data --root ~/.eos --confirm 'ERASE EOS DATA'
 python3 tools/eos_recovery.py factory-reset --root ~/.eos --confirm 'ERASE EOS DATA'
 ```
 
-`.edisk` se reserva para perfiles de dispositivos y `.img` para PC. En el prototipo ambos son contenedores de desarrollo, no imágenes GPT/raw listas para escribir en un disco. `eos_boot.py` genera planes sin modificar dispositivos. `eos_sandbox.py` produce una política declarativa; la aplicación definitiva mediante namespaces, seccomp y cgroups llegará con el supervisor C++. `eos_build.py` coordina la compilación y escribe un manifiesto local con la publicación desactivada.
+`.edisk` se reserva para perfiles de dispositivos y `.img` para PC. Ya existe una imagen GPT de desarrollo arrancable en QEMU/OVMF, pero no es un firmware de producción ni se publica. `eos_boot.py` genera planes sin modificar dispositivos. `eos_sandbox.py` produce una política declarativa; el supervisor aplica actualmente no-new-privileges y límites iniciales, mientras namespaces, seccomp y cgroups siguen pendientes. `eos_build.py` coordina la compilación, audita apps fuente y escribe un manifiesto local con la publicación desactivada.
 
-## Próximos hitos
+## Estado de los motores
 
-El siguiente hito será trasladar el gestor de paquetes y recovery a servicios C++ de EOS, añadir sandbox por proceso y construir un bootloader/instalador de PC que produzca una imagen GPT `.img`. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados hasta disponer de un runtime compatible verificable.
+Hi Eaid ya puede ejecutar una inferencia real offline con un Qwen2.5-0.5B GGUF verificado, pero la captura de micrófono y TTS todavía están detrás de permisos y contratos de hardware. EOS Browser ya tiene UI fuente, `eos-browserd`, política de red y bridge Gecko, pero el motor Gecko compilado para EOS todavía requiere un checkout Mozilla y un entorno con al menos decenas de GB libres. La ejecución de `.ipa` seguirá limitada a análisis y a binarios de prueba autorizados.
+
+Los siguientes hitos son convertir los contratos de servicio en IPC real, completar namespaces/seccomp/cgroups, integrar una build Gecko interna, unir el compositor Qt 6 con el backend de ventanas y llevar el bootloader/instalador de PC a hardware de prueba.
 
 ## Política de publicación
 
