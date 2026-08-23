@@ -1,19 +1,36 @@
 app com.etternhall.eos.notes
-version "0.2.0"
+version "0.3.0"
 use eos.ui as ui
 use eos.storage as storage
 use eos.events as events
+use eos.navigation as navigation
+use eos.lifecycle as lifecycle
 
 state current_text: string = ""
 state notes_count: int = 0
 
-fn on_launch() -> void
-  call ui.show "notes-main"
-  text "EOS Notes listo: tus notas permanecen en EOS"
+fn on_home_create() -> void
+  call ui.show "notes.home"
+  call lifecycle.ready "notes.home"
+  text "EOS Notes: pantalla principal"
+endfn
+
+fn on_editor_create() -> void
+  call ui.show "notes.editor"
+  call lifecycle.ready "notes.editor"
+  text "Editor de notas"
+endfn
+
+fn open_editor() -> void
+  call navigation.push "notes.editor"
 endfn
 
 fn open_note() -> void
-  call ui.focus "note-editor"
+  call navigation.push "notes.editor"
+endfn
+
+fn on_home_swipe_left() -> void
+  call navigation.push "notes.editor"
 endfn
 
 fn save_note() -> bool
@@ -22,11 +39,19 @@ fn save_note() -> bool
   return true
 endfn
 
+fn on_editor_back() -> void
+  call navigation.back
+endfn
+
 fn on_notification_action() -> void
   call events.ack "notification.action"
 endfn
 
-on app.launch => on_launch
+on app.launch => on_home_create
+on gesture.swipe-left => on_home_swipe_left
+on ui.action.open-editor => open_editor
+on ui.action.save => save_note
+on navigation.back => on_editor_back
 on notification.action => on_notification_action
 
 let title: string = "Notas locales EOS"

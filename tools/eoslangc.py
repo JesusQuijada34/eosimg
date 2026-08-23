@@ -53,7 +53,7 @@ def parse_call(raw: str, line: int, known: set[str]) -> dict[str, Any]:
         parts = shlex.split(raw, comments=True, posix=False)
     except ValueError as exc:
         raise CompileError(f"line {line}: {exc}") from exc
-    if len(parts) < 2 or not IDENTIFIER.fullmatch(parts[0]):
+    if not parts or not IDENTIFIER.fullmatch(parts[0]):
         raise CompileError(f"line {line}: call requires a library function")
     function = parts[0]
     # EosLang permite separar argumentos por espacios o por comas, igual que

@@ -1,0 +1,20 @@
+schema: eos-ui-0.1
+activity: notes.editor
+window:
+  id: notes-editor
+  title: "Editar nota"
+  safe_area: true
+  children:
+    - type: app_bar
+      id: editor-bar
+      title: "Editar nota"
+      navigation: back
+    - type: text_input
+      id: note-editor
+      bind: state.current_text
+      placeholder: "Escribe una nota"
+      multiline: true
+    - type: button
+      id: save
+      text: "Guardar"
+      action: save_note

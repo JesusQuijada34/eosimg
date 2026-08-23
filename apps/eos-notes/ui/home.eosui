@@ -1,0 +1,20 @@
+schema: eos-ui-0.1
+activity: notes.home
+window:
+  id: notes-home
+  title: "Notas"
+  safe_area: true
+  children:
+    - type: app_bar
+      id: home-bar
+      title: "Mis notas"
+      action: open_editor
+    - type: list
+      id: notes-list
+      bind: state.notes
+      item_text: title
+      action: open_note
+    - type: floating_button
+      id: new-note
+      text: "+"
+      action: open_editor

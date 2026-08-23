@@ -26,10 +26,10 @@ def resolve(value: Any, variables: dict[str, Any]) -> Any:
 
 
 def safe_call(function: str, args: list[Any], output: list[str]) -> Any:
-    allowed_prefixes = ("eos.ui.", "eos.storage.", "eos.events.", "ui.", "storage.", "events.")
+    allowed_prefixes = ("eos.ui.", "eos.storage.", "eos.events.", "eos.navigation.", "eos.lifecycle.", "ui.", "storage.", "events.", "navigation.", "lifecycle.")
     if not function.startswith(allowed_prefixes):
         raise RuntimeErrorEOS(f"library call is not allowed: {function}")
-    canonical = {"ui.": "eos.ui.", "storage.": "eos.storage.", "events.": "eos.events."}
+    canonical = {"ui.": "eos.ui.", "storage.": "eos.storage.", "events.": "eos.events.", "navigation.": "eos.navigation.", "lifecycle.": "eos.lifecycle."}
     for alias, prefix in canonical.items():
         if function.startswith(alias):
             function = prefix + function[len(alias):]

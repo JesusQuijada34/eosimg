@@ -7,13 +7,36 @@
     "author": "EOS Developer"
   },
   "name": "EOS Notes",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "api": "elang-0.2",
   "min_eos": ">=0.1.0",
   "entrypoint": "bin/main.eosbc",
   "ui": {
     "entry": "ui/main.eosui",
     "framework": "eos-ui-0.1"
+  },
+  "activities": {
+    "main": "notes.home",
+    "definitions": [
+      {
+        "id": "notes.home",
+        "title": "Notas",
+        "ui": "ui/home.eosui",
+        "entry": "on_home_create",
+        "exported": true,
+        "orientation": "any",
+        "restore": true
+      },
+      {
+        "id": "notes.editor",
+        "title": "Editar nota",
+        "ui": "ui/editor.eosui",
+        "entry": "on_editor_create",
+        "exported": false,
+        "orientation": "portrait",
+        "restore": true
+      }
+    ]
   },
   "targets": ["eos-x86_64", "eos-aarch64"],
   "resources": {
@@ -25,7 +48,9 @@
   "libraries": {
     "eos.ui": "0.1",
     "eos.storage": "0.1",
-    "eos.events": "0.1"
+    "eos.events": "0.1",
+    "eos.navigation": "0.1",
+    "eos.lifecycle": "0.1"
   },
   "policy": {
     "permissions": "policy/permissions.yml",

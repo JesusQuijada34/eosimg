@@ -13,8 +13,10 @@
     {"name": "eos-audiod", "layer": "ai", "dependencies": ["eos-deviced", "eos-policyd"], "network": "none"},
     {"name": "eos-assistantd", "layer": "ai", "dependencies": ["eos-modeld", "eos-audiod", "eos-policyd"], "network": "none"},
     {"name": "eos-inputd", "layer": "device", "dependencies": ["eos-logd", "eos-policyd"], "network": "none"},
+    {"name": "eos-ipcd", "layer": "core", "dependencies": ["eos-logd", "eos-policyd"], "network": "none"},
     {"name": "eos-displayd", "layer": "ui", "dependencies": ["eos-logd", "eos-powerd", "eos-policyd"], "network": "none"},
     {"name": "eos-windowd", "layer": "ui", "dependencies": ["eos-displayd", "eos-policyd"], "network": "none"},
+    {"name": "eos-activityd", "layer": "ui", "dependencies": ["eos-windowd", "eos-ipcd", "eos-packaged", "eos-policyd"], "network": "none"},
     {"name": "eos-immersived", "layer": "ui", "dependencies": ["eos-windowd", "eos-inputd"], "network": "none"},
     {"name": "eos-blinked", "layer": "ui", "dependencies": ["eos-windowd", "eos-policyd"], "network": "none"},
     {"name": "eos-browserd", "layer": "app", "dependencies": ["eos-windowd", "eos-storaged", "eos-netd", "eos-policyd"], "network": "consent-only"},
@@ -22,6 +24,6 @@
     {"name": "eos-photod", "layer": "app", "dependencies": ["eos-mediad", "eos-windowd", "eos-policyd"], "network": "none"},
     {"name": "eos-launcherd", "layer": "app", "dependencies": ["eos-packaged", "eos-windowd", "eos-policyd"], "network": "none"},
     {"name": "eos-marketd", "layer": "app", "dependencies": ["eos-packaged", "eos-launcherd", "eos-policyd"], "network": "none"},
-    {"name": "eos-phone-shell", "layer": "shell", "dependencies": ["eos-windowd", "eos-packaged", "eos-inputd", "eos-immersived", "eos-blinked"], "network": "none"}
+    {"name": "eos-phone-shell", "layer": "shell", "dependencies": ["eos-windowd", "eos-activityd", "eos-packaged", "eos-inputd", "eos-immersived", "eos-blinked"], "network": "none"}
   ]
 }

@@ -103,6 +103,10 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Servicio BlinkE + safe area/notch/window API | PASS en autoprueba |
 | `eos-windowd` safe area y ventanas occlusion-aware | PASS en autoprueba |
 | `eos-displayd` orientación, touch y capa de display | PASS en autoprueba |
+| `eos-activityd` actividades EOS, lifecycle y back stack | PASS en autoprueba |
+| Notes multipantalla: `notes.home` + `notes.editor` | PASS temporal en `.eapp` |
+| `eos-activityd` actividades, lifecycle, navegación y back stack | PASS en autoprueba |
+| Notes multipantalla: `notes.home` + `notes.editor` en `.eapp` | PASS temporal; paquete fuera de Git |
 | Validación integral de build y pruebas | PASS |
 | Validación final de servicios, `git diff --check` y releases | PASS; `no releases found` |
 | Arquitectura de plataforma EOS consolidada | Documentada |

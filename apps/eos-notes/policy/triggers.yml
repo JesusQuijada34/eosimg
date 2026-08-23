@@ -1,8 +1,26 @@
-schema: eos-triggers-0.1
+schema: eos-triggers-0.2
 triggers:
   - id: app.launch
-    handler: on_launch
-    delivery: foreground
+    activity: notes.home
+    handler: on_home_create
+    delivery: resumed-only
+  - id: gesture.swipe-left
+    activity: notes.home
+    handler: on_home_swipe_left
+    delivery: resumed-only
+  - id: ui.action.open-editor
+    activity: notes.home
+    handler: open_editor
+    delivery: resumed-only
+  - id: ui.action.save
+    activity: notes.editor
+    handler: save_note
+    delivery: resumed-only
+  - id: navigation.back
+    activity: notes.editor
+    handler: on_editor_back
+    delivery: resumed-only
   - id: notification.action
+    activity: notes.home
     handler: on_notification_action
-    delivery: foreground
+    delivery: resumed-only

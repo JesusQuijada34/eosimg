@@ -122,11 +122,12 @@ def write_package(output: Path, metadata: dict[str, Any], payload: bytes) -> Non
         handle.write(payload)
 
 
-def validate_yaml_policy(path: Path, schema: str, required_key: str) -> None:
+def validate_yaml_policy(path: Path, schema: str | tuple[str, ...], required_key: str) -> None:
     """Validate the restricted declarative YAML subset used by EOS policies."""
     raw = path.read_text(encoding="utf-8")
-    if "\t" in raw or f"schema: {schema}" not in raw:
-        raise ValueError(f"invalid {schema} policy: {path}")
+    accepted = (schema,) if isinstance(schema, str) else schema
+    if "\t" in raw or not any(f"schema: {item}" in raw for item in accepted):
+        raise ValueError(f"invalid {accepted} policy: {path}")
     if f"{required_key}:" not in raw:
         raise ValueError(f"missing {required_key} in policy: {path}")
     if any(line.lstrip().startswith(("!", "&", "*", "|", ">")) for line in raw.splitlines()):
@@ -156,7 +157,7 @@ def build_v3_payload(source: Path, manifest: dict[str, Any], args: argparse.Name
         elif not (source / current).is_file() and not current.startswith("signatures/"):
             raise ValueError(f"manifest path is missing: {current}")
     validate_yaml_policy(source / manifest["policy"]["permissions"], "eos-permissions-0.1", "permissions")
-    validate_yaml_policy(source / manifest["policy"]["triggers"], "eos-triggers-0.1", "triggers")
+    validate_yaml_policy(source / manifest["policy"]["triggers"], ("eos-triggers-0.1", "eos-triggers-0.2"), "triggers")
     if not (source / manifest["ui"]["entry"]).is_file():
         raise ValueError("v3 UI entry is missing")
     with tempfile.TemporaryDirectory(prefix="eapp-v3-") as temp:
