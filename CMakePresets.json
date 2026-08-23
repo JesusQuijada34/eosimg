@@ -1,0 +1,30 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {"major": 3, "minor": 22, "patch": 0},
+  "configurePresets": [
+    {
+      "name": "eos-debug",
+      "displayName": "EOS development debug",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/presets/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "eos-release-dev",
+      "displayName": "EOS reproducible development release",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/presets/release-dev",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {"name": "eos-debug-build", "configurePreset": "eos-debug", "jobs": 2},
+    {"name": "eos-release-dev-build", "configurePreset": "eos-release-dev", "jobs": 2}
+  ]
+}

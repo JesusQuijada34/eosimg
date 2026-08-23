@@ -95,6 +95,8 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Servicio BlinkE + safe area/notch/window API | PASS en autoprueba |
 | Validación integral de build y pruebas | PASS |
 | Validación final de servicios, `git diff --check` y releases | PASS; `no releases found` |
+| Arquitectura de plataforma EOS consolidada | Documentada |
+| Presets CMake + `eos-build` source-only | PASS |
 | Validación `.edisk` por perfil y arquitectura | PASS sin flasheo |
 | Supervisor C++ de procesos y límites iniciales | PASS |
 | Ejecución de una app comercial `.ipa` | No implementada |
