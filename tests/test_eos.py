@@ -34,6 +34,11 @@ def main() -> int:
         output = run("tools/eosrun.py", str(bytecode)).stdout
         assert "Hola desde EOS" in output
         assert "Etternhall" in output
+        api_report = json.loads(run("tools/eos_api.py", "check", str(package)).stdout)
+        assert api_report["compatible"] is True
+        ipa_report = json.loads(run("tools/ipa_compat.py", "tests/fixtures/demo.ipa").stdout)
+        assert ipa_report["mode"] == "analysis-only"
+        assert ipa_report["apps"][0]["macho"]["architecture"] == "arm64"
     print("EOS_TESTS=PASS")
     return 0
 

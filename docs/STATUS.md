@@ -51,6 +51,9 @@ Se añadió `eos-inputd`, un servicio C++ con protocolo `eos-touch-0.1` que clas
 | Teclado virtual Qt 6 | PASS en shell offscreen |
 | Imagen raw GPT `.img` de desarrollo | PASS |
 | Servicio de entrada táctil | PASS en autoprueba |
+| Registro de APIs EOS | PASS |
+| Stub local de IA/asistente | PASS |
+| Validación integral de build y pruebas | PASS |
 | Ejecución de una app comercial `.ipa` | No implementada |
 | ISO arrancable completa | No implementada |
 | Soporte universal de Swift/UIKit/SwiftUI | No implementado |
