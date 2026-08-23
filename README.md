@@ -18,6 +18,7 @@ La versión 0.1 define una arquitectura por capas similar en organización a AOS
 | `tools/eos_boot.py` | Inspector y planificador de boot |
 | `tools/eos_runner.py` | Runner de VM para Windows/Linux |
 | `tools/eos_sandbox.py` | Política de permisos y sandbox |
+| `tools/eos_build.py` | Motor de compilación coordinado |
 | `tools/eoslangc.py` / `tools/eosrun.py` | Compilador y runtime EosLang |
 | `src/` | Servicios C++ y shell Qt 6 de EOS |
 | `tests/` | Pruebas del formato y de los servicios |
@@ -50,7 +51,7 @@ python3 tools/eos_recovery.py wipe-data --root ~/.eos --confirm 'ERASE EOS DATA'
 python3 tools/eos_recovery.py factory-reset --root ~/.eos --confirm 'ERASE EOS DATA'
 ```
 
-`.edisk` se reserva para perfiles de dispositivos y `.img` para PC. En el prototipo ambos son contenedores de desarrollo, no imágenes GPT/raw listas para escribir en un disco. `eos_boot.py` genera planes sin modificar dispositivos. `eos_sandbox.py` produce una política declarativa; la aplicación definitiva mediante namespaces, seccomp y cgroups llegará con el supervisor C++.
+`.edisk` se reserva para perfiles de dispositivos y `.img` para PC. En el prototipo ambos son contenedores de desarrollo, no imágenes GPT/raw listas para escribir en un disco. `eos_boot.py` genera planes sin modificar dispositivos. `eos_sandbox.py` produce una política declarativa; la aplicación definitiva mediante namespaces, seccomp y cgroups llegará con el supervisor C++. `eos_build.py` coordina la compilación y escribe un manifiesto local con la publicación desactivada.
 
 ## Próximos hitos
 
