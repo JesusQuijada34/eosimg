@@ -10,7 +10,7 @@ SIZE="${EOS_PLASMA_IMAGE_SIZE:-8G}"
 MIRROR="${EOS_UBUNTU_MIRROR:-http://archive.ubuntu.com/ubuntu}"
 EOS_UBUNTU_SUITE="${EOS_UBUNTU_SUITE:-noble}"
 
-PACKAGES="ubuntu-minimal systemd-sysv dbus-x11 xorg xserver-xorg-video-qxl xserver-xorg-input-all plasma-desktop plasma-workspace kwin-x11 sddm calamares konsole dolphin network-manager sudo locales fonts-noto"
+PACKAGES="ubuntu-minimal systemd-sysv dbus-x11 xorg xserver-xorg-video-qxl xserver-xorg-input-all plasma-desktop plasma-workspace kwin-x11 sddm calamares calamares-settings-ubuntu-common calamares-settings-kubuntu konsole dolphin network-manager sudo locales fonts-noto"
 
 sudo umount -R "$ROOTFS" 2>/dev/null || true
 sudo rm -rf "$ROOTFS" "$MOUNT"

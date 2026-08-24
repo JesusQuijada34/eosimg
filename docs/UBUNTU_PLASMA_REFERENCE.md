@@ -31,7 +31,7 @@ La prueba actual confirmó que la initramfs Live monta el squashfs, entrega el c
 
 ## Calamares
 
-Calamares está instalado dentro de la imagen y se expone mediante `/usr/share/applications/eos-installer.desktop`, que ejecuta `pkexec calamares`. La configuración actual es una integración de referencia; todavía requiere módulos de particionado, identidad y postinstalación ajustados a un producto EOS antes de poder instalar o reemplazar una instalación real.
+Calamares está instalado dentro de la imagen y se expone mediante `/usr/share/applications/eos-installer.desktop`, que ejecuta `pkexec calamares`. La imagen incorpora `calamares-settings-ubuntu-common` y `calamares-settings-kubuntu`, por lo que el instalador carga una secuencia y branding de Ubuntu/Kubuntu en `/etc/calamares`. La validación offscreen confirmó que Calamares puede inicializar su interfaz y comprobar módulos; no se ejecutaron particionado ni escritura de discos. Todavía requiere módulos de particionado, identidad y postinstalación ajustados a un producto EOS antes de poder instalar o reemplazar una instalación real.
 
 ## Relación con EOS
 
